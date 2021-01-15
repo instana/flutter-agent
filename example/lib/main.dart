@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> setupInstana() async {
-    await FlutterAgent.setup(key: APP_KEY, reportingUrl: REPORTING_URL);
+    await FlutterAgent.setup(key: 'Prmco-4ZRq66pMIt2HPB5Q', reportingUrl: 'https://eum-red-saas.instana.io:443/mobile');
     await FlutterAgent.setUserID('1234567890');
     await FlutterAgent.setUserName('Boty McBotFace');
     await FlutterAgent.setUserEmail('boty@mcbot.com');
