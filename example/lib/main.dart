@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:instana_agent/instana_agent.dart';
 
+import 'http_client.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -28,11 +30,17 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     /// Initializes Instana. Must be run only once as soon as possible in the app's lifecycle
-    InstanaAgent.setup(key: 'KEY', reportingUrl: 'REPORTING_URL');
+    InstanaAgent.setup(key: 'Prmco-4ZRq66pMIt2HPB5Q', reportingUrl: 'https://eum-red-saas.instana.io:443/mobile');
 
-    setUserIdentifiers(); /// optional
-    setView(); /// optional
-    reportCustomEvents(); /// optional
+    setUserIdentifiers();
+
+    /// optional
+    setView();
+
+    /// optional
+    reportCustomEvents();
+
+    /// optional
 
     futureAlbum = fetchAlbum();
   }
@@ -78,20 +86,19 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<Album> fetchAlbum() async {
+    final InstrumentedHttpClient httpClient = InstrumentedHttpClient(http.Client());
+
     Random random = new Random();
     var id = random.nextInt(100);
     var url = 'https://jsonplaceholder.typicode.com/albums/' + id.toString();
-    var marker = await InstanaAgent.startCapture(url: url, method: 'GET', viewName: 'Album');
-    final response = await http.get(url);
-    marker.responseStatusCode = response.statusCode;
-    marker.finish();
+    final http.Request request = http.Request("GET", Uri.parse(url));
+
+    final response = await httpClient.send(request);
+
     if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      return Album.fromJson(jsonDecode(response.body));
+      var responseBody = await response.stream.bytesToString();
+      return Album.fromJson(jsonDecode(responseBody));
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
       throw Exception('Failed to load album');
     }
   }
