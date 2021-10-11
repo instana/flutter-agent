@@ -83,9 +83,6 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     viewName = viewName
                 )
             }
-            "isCollectionEnabled" -> {
-                result.success(nativeLink.isCollectionEnabled())
-            }
             "getView" -> {
                 result.success(nativeLink.getView())
             }

@@ -92,10 +92,6 @@ internal class NativeLink {
         return Instana.view
     }
 
-    fun isCollectionEnabled(): Boolean? {
-        return Instana.isCollectionEnabled()
-    }
-
     fun getSessionID(): String? {
         return Instana.sessionId
     }

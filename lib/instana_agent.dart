@@ -34,11 +34,6 @@ class InstanaAgent {
         'setCollectionEnabled', <String, dynamic>{'collectionEnabled': enable});
   }
 
-  /// Returns the current state of the collectionEnabled flag
-  static Future<bool?> isCollectionEnabled() async {
-    return await _channel.invokeMethod('isCollectionEnabled', <String, dynamic>{});
-  }
-
   /// Returns unique ID assigned by Instana to current session
   ///
   /// SessionID will change every time the app cold-starts
