@@ -68,8 +68,10 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
             cancel(call, result)
         } else if call.method == "getView" {
             getView(call, result)
-        } else if call.method == "getSessionID" { 
+        } else if call.method == "getSessionID" {
             getSessionID(call, result)
+        } else if call.method == "setCollectionEnabled" {
+            setCollectionEnabled(call, result)
         } else {
             result(FlutterMethodNotImplemented)
         }
@@ -82,7 +84,8 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
                             .missingOrInvalidArgs([Arg.reportingUrl.string, Arg.key.string])
                             .flutterError)
         }
-        Instana.setup(key: key, reportingURL: url, httpCaptureConfig: .manual)
+        let collectionEnabled = bool(for: .collectionEnabled, at: call) ?? true
+        Instana.setup(key: key, reportingURL: url, httpCaptureConfig: .manual, collectionEnabled: collectionEnabled)
         result("Instana did setup")
     }
 
@@ -181,7 +184,6 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
     }
 
     func finish(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
-        print(call)
         guard let id = string(for: .id, at: call) else {
             return result(SwiftInstanaAgentPluginError.missingOrInvalidArgs([Arg.id.string]).flutterError)
         }
@@ -221,6 +223,16 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         result(Instana.sessionID)
     }
 
+    func setCollectionEnabled(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+        guard let enabled = bool(for: .collectionEnabled, at: call) else {
+            return result(SwiftInstanaAgentPluginError
+                            .missingOrInvalidArgs([Arg.collectionEnabled.string])
+                            .flutterError)
+        }
+        Instana.collectionEnabled = enabled
+        result("Collection enabled: \(enabled)")
+    }
+
     // Helper
     private func value<T>(for key: Arg, at call: FlutterMethodCall) -> T? {
         guard let args = call.arguments as? [String: Any],
@@ -232,6 +244,10 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
 
     private func string(for key: Arg, at call: FlutterMethodCall) -> String? {
         value(for: key, at: call) as String?
+    }
+
+    private func bool(for key: Arg, at call: FlutterMethodCall) -> Bool? {
+        value(for: key, at: call) as Bool?
     }
 
     private func stringDict(for key: Arg, at call: FlutterMethodCall) -> [String: String]? {
@@ -266,6 +282,7 @@ extension SwiftInstanaAgentPlugin {
     enum Arg: String {
         case reportingUrl
         case key
+        case collectionEnabled
         case value
         case userID
         case userName

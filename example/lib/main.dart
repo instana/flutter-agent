@@ -30,9 +30,13 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     /// Initializes Instana. Must be run only once as soon as possible in the app's lifecycle
-    InstanaAgent.setup(key: 'Prmco-4ZRq66pMIt2HPB5Q', reportingUrl: 'https://eum-red-saas.instana.io:443/mobile');
+    var options = SetupOptions();
+    options.collectionEnabled = false;
+    InstanaAgent.setup(key: 'key', reportingUrl: 'URL', options: options);
 
     setUserIdentifiers();
+
+    InstanaAgent.setCollectionEnabled(true);
 
     /// optional
     setView();
@@ -41,7 +45,6 @@ class _MyAppState extends State<MyApp> {
     reportCustomEvents();
 
     /// optional
-
     futureAlbum = fetchAlbum();
   }
 
