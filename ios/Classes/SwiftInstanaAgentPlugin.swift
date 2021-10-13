@@ -184,7 +184,6 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
     }
 
     func finish(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
-        print(call)
         guard let id = string(for: .id, at: call) else {
             return result(SwiftInstanaAgentPluginError.missingOrInvalidArgs([Arg.id.string]).flutterError)
         }
