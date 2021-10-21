@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.1
+- Update native iOS agent to version 1.2.2
+
 ## 2.1.0
 - Update native iOS and Android Instana agents
 - Introduce collectionEnabled flag to disable or enable the agent after the setup process
