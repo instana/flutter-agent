@@ -26,7 +26,7 @@ The steps to build the code into a package and run the example with it remain as
 We follow [Semantic Versioning 2.0](https://semver.org/).
 
 Steps:
-1. Update [CHANGELOG.md](./CHANGELOG.md) with the new version
+1. Update [CHANGELOG.md](./CHANGELOG.md) with the new version. Note, there might be existing version which is not published in the file, run a cross check with last released git tag to decide the actual version to be published.
 2. Update [pubspec.yaml](./pubspec.yaml) with the new version
 4. Commit and push the change
 5. Create release tag
