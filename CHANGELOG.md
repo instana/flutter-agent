@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.0
+- Use iOS agent version 1.3.0
+
 ## 2.1.2
 - Update native iOS agent to version 1.2.4
 
