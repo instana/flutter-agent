@@ -7,7 +7,7 @@ import Flutter
 import UIKit
 import InstanaAgent
 
-enum SwiftInstanaAgentPluginError: Error {
+enum SwiftInstanaAgentPluginError: LocalizedError {
     case missingOrInvalidArgs([String])
     case invalidSetup
     case captureResultFailed(String)
@@ -20,11 +20,19 @@ enum SwiftInstanaAgentPluginError: Error {
         }
     }
 
+    var localizedDescription: String {
+        message
+    }
+
+    var errorDescription: String? {
+        localizedDescription
+    }
+
     var message: String {
         switch self {
             case .missingOrInvalidArgs(let args): return "Invalid or missing Arguments \(args)"
             case .invalidSetup: return "Instana setup invalid. Please call setup before calling other methods"
-            case .captureResultFailed(let val): return "HTTP failed: \(val)"
+            case .captureResultFailed(let val): return val
         }
     }
 
