@@ -84,11 +84,12 @@ class _MyAppState extends State<MyApp> {
             'customKey2': 'customValue2'
           });
     await InstanaAgent.startCapture(
-            url: 'https://example.com/success', method: 'GET')
+            url: 'https://example.com/failure', method: 'GET')
         .then((marker) => marker
-          ..responseStatusCode = 200
+          ..responseStatusCode = 500
           ..responseSizeBody = 1000
           ..responseSizeBodyDecoded = 2400
+          ..errorMessage = 'Download of album failed'
           ..finish());
     await InstanaAgent.startCapture(
             url: 'https://example.com/cancel', method: 'POST')
