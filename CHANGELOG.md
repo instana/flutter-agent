@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.0
+- Fix custom error message
+- Update dependency libs 
+
 ## 2.2.0
 - Use iOS agent version 1.3.0
 
