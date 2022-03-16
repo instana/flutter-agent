@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.3.1
+- Update native iOS agent to version 1.3.1
+
 ## 2.3.0
 - Fix custom error message
 - Update dependency libs 
