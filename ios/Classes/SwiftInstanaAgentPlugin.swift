@@ -80,6 +80,8 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
             getSessionID(call, result)
         } else if call.method == "setCollectionEnabled" {
             setCollectionEnabled(call, result)
+        } else if call.method == "redactHTTPQuery" {
+            redactHTTPQuery(call, result)
         } else {
             result(FlutterMethodNotImplemented)
         }
@@ -241,6 +243,19 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         result("Collection enabled: \(enabled)")
     }
 
+    func redactHTTPQuery(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+        guard let regExStrings = stringArray(for: .redactHTTPQueryRegEx, at: call) else {
+            return result(SwiftInstanaAgentPluginError
+                            .missingOrInvalidArgs([Arg.redactHTTPQueryRegEx.string])
+                            .flutterError)
+        }
+        let regexpressions = regExStrings.compactMap {pattern in
+            try? NSRegularExpression(pattern: pattern, options: [])
+        }
+        Instana.redactHTTPQuery(matching: regexpressions)
+        result("Set redactHTTPQuery matching regularexpressions: \(regExStrings)")
+    }
+
     // Helper
     private func value<T>(for key: Arg, at call: FlutterMethodCall) -> T? {
         guard let args = call.arguments as? [String: Any],
@@ -309,6 +324,7 @@ extension SwiftInstanaAgentPlugin {
         case responseSizeHeader
         case responseSizeBody
         case responseSizeBodyDecoded
+        case redactHTTPQueryRegEx
         var string: String { rawValue }
     }
 }

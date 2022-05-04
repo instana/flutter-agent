@@ -37,6 +37,7 @@ class _MyAppState extends State<MyApp> {
     setUserIdentifiers();
 
     InstanaAgent.setCollectionEnabled(true);
+    InstanaAgent.redactHTTPQuery(regex: ['passwor(t|d)']);
 
     /// optional
     setView();
@@ -102,7 +103,9 @@ class _MyAppState extends State<MyApp> {
 
     Random random = new Random();
     var id = random.nextInt(100);
-    var url = 'https://jsonplaceholder.typicode.com/albums/' + id.toString();
+    var url = 'https://jsonplaceholder.typicode.com/albums/' +
+        id.toString() +
+        '?password=secret&passwort=secret';
     final http.Request request = http.Request("GET", Uri.parse(url));
 
     final response = await httpClient.send(request);
