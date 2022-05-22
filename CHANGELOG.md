@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.3.2
+- Update native Android agent to version 5.1.0
+
 ## 2.3.1
 - Update native iOS agent to version 1.3.1
 
