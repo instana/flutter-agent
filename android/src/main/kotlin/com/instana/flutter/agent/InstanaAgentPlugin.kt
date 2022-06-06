@@ -135,6 +135,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     (call.argument("responseSizeBodyDecoded") as? Int)?.toLong()
                 val backendTraceId: String? = call.argument("backendTracingID")
                 val errorMessage: String? = call.argument("errorMessage")
+                val responseHeaders: HashMap<String?,String?>? = call.argument("responseHeaders")
                 nativeLink.finishCapture(
                     result = result,
                     markerId = markerId,
@@ -142,7 +143,8 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     responseSizeEncodedBytes = responseSizeEncodedBytes,
                     responseSizeDecodedBytes = responseSizeDecodedBytes,
                     backendTraceId = backendTraceId,
-                    errorMessage = errorMessage
+                    errorMessage = errorMessage,
+                    responseHeaders = responseHeaders
                 )
             }
             "cancel" -> {

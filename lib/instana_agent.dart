@@ -150,6 +150,9 @@ class Marker {
   /// Response's error message
   String? errorMessage;
 
+  /// Response's header (header name as map key, header value as map value)
+  Map<String, String>? responseHeaders;
+
   /// Finishes the [Marker], triggering the generation and queueing of a HTTP tracking beacon
   Future<void> finish() async {
     await _channel.invokeMethod('finish', <String, dynamic>{
@@ -159,7 +162,8 @@ class Marker {
       'responseSizeHeader': responseSizeHeader,
       'responseSizeBody': responseSizeBody,
       'responseSizeBodyDecoded': responseSizeBodyDecoded,
-      'errorMessage': errorMessage
+      'errorMessage': errorMessage,
+      'responseHeaders': responseHeaders
     });
   }
 

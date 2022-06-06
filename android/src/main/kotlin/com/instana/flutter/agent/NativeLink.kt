@@ -9,6 +9,7 @@ import android.app.Application
 import com.instana.android.CustomEvent
 import com.instana.android.Instana
 import com.instana.android.core.InstanaConfig
+import com.instana.android.core.util.MaxCapacityMap
 import com.instana.android.instrumentation.HTTPCaptureConfig
 import com.instana.android.instrumentation.HTTPMarker
 import com.instana.android.instrumentation.HTTPMarkerData
@@ -184,7 +185,8 @@ internal class NativeLink {
         responseSizeEncodedBytes: Long?,
         responseSizeDecodedBytes: Long?,
         backendTraceId: String?,
-        errorMessage: String?
+        errorMessage: String?,
+        responseHeaders: HashMap<String?, String?>?
     ) {
         if (markerId.isNullOrBlank()) {
             result.error(
@@ -200,7 +202,8 @@ internal class NativeLink {
                     responseSizeEncodedBytes = responseSizeEncodedBytes,
                     responseSizeDecodedBytes = responseSizeDecodedBytes,
                     backendTraceId = backendTraceId,
-                    errorMessage = errorMessage
+                    errorMessage = errorMessage,
+                    headers = responseHeaders?.filterNotNull()
                 )
             )
             markerInstanceMap.remove(markerId)
