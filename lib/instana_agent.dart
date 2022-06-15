@@ -96,6 +96,19 @@ class InstanaAgent {
     });
   }
 
+  ///
+  /// Capture HTTP header fields by providing a list
+  /// of reguluar expressions strings that match the HTTP field keys.
+  ///
+  /// Default: No HTTP header fields are captured. Keywords must be provided explicitly
+  ///
+  /// - Parameters:
+  ///    - regex: List of String to capture matching HTTP header field keywords
+  static Future<void> setCaptureHeaders({required List<String> regex}) async {
+    await _channel
+        .invokeMethod('setCaptureHeaders', <String, dynamic>{'regex': regex});
+  }
+
   /// Mark the start of an HTTP Request
   ///
   /// Returns a [Marker] you can [finish()] to send a beacon to Instana

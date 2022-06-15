@@ -41,6 +41,8 @@ class _MyAppState extends State<MyApp> {
     /// optional
     setView();
 
+    InstanaAgent.setCaptureHeaders(regex: ['x-ratelimit-reset']);
+
     /// optional
     reportCustomEvents();
 
