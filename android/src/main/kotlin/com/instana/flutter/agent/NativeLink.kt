@@ -14,7 +14,6 @@ import com.instana.android.instrumentation.HTTPMarker
 import com.instana.android.instrumentation.HTTPMarkerData
 import io.flutter.plugin.common.MethodChannel
 import java.util.*
-import java.util.regex.Pattern
 
 internal class NativeLink {
 
@@ -120,6 +119,20 @@ internal class NativeLink {
         }
     }
 
+    fun setCaptureHeaders(result: MethodChannel.Result, regex: List<String?>?) {
+        if (regex == null) {
+            result.error(
+                ErrorCode.MISSING_OR_INVALID_ARGUMENT.serialized,
+                "Instana requires non-blank 'meta keys'",
+                null
+            )
+        } else {
+            val patterns = regex.filterNotNull().map { it.toPattern() }
+            Instana.captureHeaders.addAll(patterns)
+            result.success(null)
+        }
+    }
+
     fun reportEvent(
         result: MethodChannel.Result,
         eventName: String?,
@@ -184,7 +197,8 @@ internal class NativeLink {
         responseSizeEncodedBytes: Long?,
         responseSizeDecodedBytes: Long?,
         backendTraceId: String?,
-        errorMessage: String?
+        errorMessage: String?,
+        responseHeaders: HashMap<String?, String?>?
     ) {
         if (markerId.isNullOrBlank()) {
             result.error(
@@ -200,7 +214,8 @@ internal class NativeLink {
                     responseSizeEncodedBytes = responseSizeEncodedBytes,
                     responseSizeDecodedBytes = responseSizeDecodedBytes,
                     backendTraceId = backendTraceId,
-                    errorMessage = errorMessage
+                    errorMessage = errorMessage,
+                    headers = responseHeaders?.filterNotNull()
                 )
             )
             markerInstanceMap.remove(markerId)

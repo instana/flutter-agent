@@ -23,7 +23,8 @@ class InstrumentedHttpClient extends BaseClient {
         ..responseStatusCode = response.statusCode
         ..responseSizeBody = response.contentLength
         ..backendTracingID =
-            BackendTracingIDParser.fromHeadersMap(response.headers);
+            BackendTracingIDParser.fromHeadersMap(response.headers)
+        ..responseHeaders = response.headers;
     } finally {
       await marker.finish();
     }

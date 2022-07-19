@@ -96,6 +96,19 @@ class InstanaAgent {
     });
   }
 
+  ///
+  /// Capture HTTP header fields by providing a list
+  /// of reguluar expressions strings that match the HTTP field keys.
+  ///
+  /// Default: No HTTP header fields are captured. Keywords must be provided explicitly
+  ///
+  /// - Parameters:
+  ///    - regex: List of String to capture matching HTTP header field keywords
+  static Future<void> setCaptureHeaders({required List<String> regex}) async {
+    await _channel
+        .invokeMethod('setCaptureHeaders', <String, dynamic>{'regex': regex});
+  }
+
   /// Mark the start of an HTTP Request
   ///
   /// Returns a [Marker] you can [finish()] to send a beacon to Instana
@@ -150,6 +163,9 @@ class Marker {
   /// Response's error message
   String? errorMessage;
 
+  /// Response's header (header name as map key, header value as map value)
+  Map<String, String>? responseHeaders;
+
   /// Finishes the [Marker], triggering the generation and queueing of a HTTP tracking beacon
   Future<void> finish() async {
     await _channel.invokeMethod('finish', <String, dynamic>{
@@ -159,7 +175,8 @@ class Marker {
       'responseSizeHeader': responseSizeHeader,
       'responseSizeBody': responseSizeBody,
       'responseSizeBodyDecoded': responseSizeBodyDecoded,
-      'errorMessage': errorMessage
+      'errorMessage': errorMessage,
+      'responseHeaders': responseHeaders
     });
   }
 

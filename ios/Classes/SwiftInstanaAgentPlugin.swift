@@ -80,6 +80,8 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
             getSessionID(call, result)
         } else if call.method == "setCollectionEnabled" {
             setCollectionEnabled(call, result)
+        } else if call.method == "setCaptureHeaders" {
+            setCaptureHeaders(call, result)
         } else {
             result(FlutterMethodNotImplemented)
         }
@@ -199,6 +201,7 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         let errorMsg = string(for: .errorMessage, at: call)
         let error = errorMsg != nil ? SwiftInstanaAgentPluginError.captureResultFailed(errorMsg!) : nil
         let backendTracingID = string(for: .backendTracingID, at: call)
+        let header = stringDict(for: .responseHeaders, at: call)
         let headerSize = int64(for: .responseSizeHeader, at: call) ?? 0
         let bodySize = int64(for: .responseSizeBody, at: call) ?? 0
         let bodySizeAfterDecoding = int64(for: .responseSizeBodyDecoded, at: call) ?? 0
@@ -206,6 +209,7 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         let size: HTTPMarker.Size = HTTPMarker.Size(header: headerSize, body: bodySize, bodyAfterDecoding: bodySizeAfterDecoding)
         let captureResult = HTTPCaptureResult(statusCode: statusCode,
                                        backendTracingID: backendTracingID,
+                                       header: header,
                                        responseSize: size,
                                        error: error)
         marker?.finish(captureResult)
@@ -239,6 +243,19 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         }
         Instana.collectionEnabled = enabled
         result("Collection enabled: \(enabled)")
+    }
+
+    func setCaptureHeaders(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+        guard let regExStrings = stringArray(for: .regex, at: call) else {
+            return result(SwiftInstanaAgentPluginError
+                .missingOrInvalidArgs([Arg.regex.string])
+                .flutterError)
+        }
+        let regexpressions = regExStrings.compactMap {pattern in
+            try? NSRegularExpression(pattern: pattern, options: [])
+        }
+        Instana.setCaptureHeaders(matching: regexpressions)
+        result("SetCaptureHeaders matching regularexpressions: \(regExStrings)")
     }
 
     // Helper
@@ -291,6 +308,8 @@ extension SwiftInstanaAgentPlugin {
         case reportingUrl
         case key
         case collectionEnabled
+        case setCaptureHeaders
+        case regex
         case value
         case userID
         case userName
@@ -300,6 +319,7 @@ extension SwiftInstanaAgentPlugin {
         case startTime
         case duration
         case backendTracingID
+        case responseHeaders
         case meta
         case url
         case method
