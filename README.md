@@ -87,7 +87,7 @@ class _InstrumentedHttpClient extends BaseClient {
             ..responseStatusCode = response.statusCode
             ..responseSizeBody = response.contentLength
             ..backendTracingID = BackendTracingIDParser.fromHeadersMap(response.headers)
-            ..responseHeaders = response.headers; // Please note that this will track all response headers. You might want to filter them
+            ..responseHeaders = response.headers;
       } finally {
          await marker.finish();
       }
