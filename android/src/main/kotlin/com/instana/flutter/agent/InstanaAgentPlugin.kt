@@ -98,6 +98,13 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     value = value
                 )
             }
+            "setCaptureHeaders" -> {
+                val list: List<String?>? = call.argument("regex")
+                nativeLink.setCaptureHeaders(
+                    result = result,
+                    regex = list
+                )
+            }
             "reportEvent" -> {
                 val eventName: String? = call.argument("eventName")
                 val startTime: Double? = call.argument("startTime")
