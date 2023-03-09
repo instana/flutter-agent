@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.4.1
+- Update native Android agent to version 5.2.4
+- Update CocoaPods's specs to match with iOS native agent version 1.5.2
+- Fix example app for newer version flutter
+
 ## 2.4.0
 - Update native Android agent to version 5.2.3
 - Update native iOS agent to version 1.5.2

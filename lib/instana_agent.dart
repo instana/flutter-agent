@@ -98,7 +98,7 @@ class InstanaAgent {
 
   ///
   /// Capture HTTP header fields by providing a list
-  /// of reguluar expressions strings that match the HTTP field keys.
+  /// of regular expressions strings that match the HTTP field keys.
   ///
   /// Default: No HTTP header fields are captured. Keywords must be provided explicitly
   ///
@@ -127,7 +127,7 @@ class InstanaAgent {
   }
 }
 
-/// This class can be user to manually track HTTP Requests
+/// This class can be used to manually track HTTP Requests
 ///
 /// Please use the [startCapture()] method to obtain your [Marker]
 class Marker {
@@ -180,7 +180,7 @@ class Marker {
     });
   }
 
-  /// Cancels the [Marker], triggering the generation and queueing of a HTTP tracking beacon
+  /// Cancels the [Marker], triggering the generation and queuing of a HTTP tracking beacon
   Future<void> cancel() async {
     await _channel.invokeMethod('cancel', <String, dynamic>{'id': id});
   }

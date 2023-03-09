@@ -130,11 +130,12 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: Column(
             children: <Widget>[
-              FlatButton(
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  padding: EdgeInsets.all(8.0),
-                  splashColor: Colors.blueAccent,
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.all(8.0),
+                    textStyle: const TextStyle(fontSize: 16, color: Colors.blue),
+                  ),
                   onPressed: () {
                     this.setState(() {
                       futureAlbum = fetchAlbum();
