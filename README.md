@@ -7,6 +7,10 @@
 
 Instana agent allows Flutter apps to send monitoring data to Instana. 
 
+## Requirements
+- Flutter version 1.20.0+
+- Dart version between 2.12.0 and 3.0.0
+
 ## Installation
 
 The **Instana agent** Flutter package is available via [pub.dev](https://pub.dev/). 
@@ -134,6 +138,42 @@ try {
 log("Captured PlatformException during Instana setup: $e");
 }
 ```
+
+## How to enable native http capture
+Since flutter-agent version 2.5.0, we are able to capture http calls made inside iOS platform (in Swift or Objective C language) and Android platform (in Kotlin or Java language) though by default it's disabled.
+Please make changes to your Instana setup call like following:
+```dart
+@override
+void initState() {
+   super.initState();
+
+   var options = SetupOptions();
+   options.collectionEnabled = true;
+   options.captureNativeHttp = true;
+   InstanaAgent.setup(key: 'YOUR-INSTANA-KEY', reportingUrl: 'YOUR-REPORTING_URL', options: options);
+}
+```
+
+#### For Android platform, also make following 2 changes:
+
+1. In project level build.gradle file, add **android-agent-plugin** to classpath section.
+```groovy
+buildscript {
+    ext.native_instana_version = '5.2.4' //version must be same as the android-agent version used by flutter-agent
+    // other setups here
+    dependencies {
+        // other classpaths here
+        classpath "com.instana:android-agent-plugin:$native_instana_version"
+    }
+}
+```
+
+2. In app level build.gradle file, apply android-agent-plugin **before** applying flutter.gradle.
+```groovy
+apply plugin: 'com.instana.android-agent-plugin'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+```
+
 
 ## More
 

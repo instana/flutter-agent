@@ -38,12 +38,14 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                 val key: String? = call.argument("key")
                 val reportingUrl: String? = call.argument("reportingUrl")
                 val collectionEnabled: Boolean? = call.argument("collectionEnabled")
+                val captureNativeHttp: Boolean? = call.argument("captureNativeHttp")
                 nativeLink.setUpInstana(
                     result = result,
                     app = app,
                     reportingUrl = reportingUrl,
                     key = key,
-                    collectionEnabled = collectionEnabled
+                    collectionEnabled = collectionEnabled,
+                    captureNativeHttp = captureNativeHttp
                 )
             }
             "setCollectionEnabled" -> {

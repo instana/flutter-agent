@@ -25,7 +25,8 @@ internal class NativeLink {
         app: Application?,
         reportingUrl: String?,
         key: String?,
-        collectionEnabled: Boolean?
+        collectionEnabled: Boolean?,
+        captureNativeHttp: Boolean?
     ) {
         if (key.isNullOrBlank()) {
             result.error(
@@ -46,10 +47,16 @@ internal class NativeLink {
                 null
             )
         } else {
+            var httpCaptureConfig: HTTPCaptureConfig
+            if (captureNativeHttp ?: false) {
+                httpCaptureConfig = HTTPCaptureConfig.AUTO
+            } else {
+                httpCaptureConfig = HTTPCaptureConfig.MANUAL
+            }
             val config = InstanaConfig(
                 reportingURL = reportingUrl,
                 key = key,
-                httpCaptureConfig = HTTPCaptureConfig.MANUAL
+                httpCaptureConfig = httpCaptureConfig
             )
             if (collectionEnabled != null) {
                 config.collectionEnabled = collectionEnabled

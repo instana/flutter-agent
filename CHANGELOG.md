@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.0
+- Support native http capture (Kotlin/Java for Android, swift/ObjectiveC for iOS)
+- Upgrade example app Android platform AGP to version 7.3.1
+
 ## 2.4.1
 - Update native Android agent to version 5.2.4
 - Update CocoaPods's specs to match with iOS native agent version 1.5.2

@@ -95,7 +95,16 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
                             .flutterError)
         }
         let collectionEnabled = bool(for: .collectionEnabled, at: call) ?? true
-        Instana.setup(key: key, reportingURL: url, httpCaptureConfig: .manual, collectionEnabled: collectionEnabled)
+        let captureNativeHttp = bool(for: .captureNativeHttp, at: call) ?? false
+        var httpCaptureConfig: HTTPCaptureConfig
+        if captureNativeHttp {
+            httpCaptureConfig = HTTPCaptureConfig.automaticAndManual
+        } else {
+            httpCaptureConfig = HTTPCaptureConfig.manual
+        }
+        Instana.setup(key: key, reportingURL: url,
+            httpCaptureConfig: httpCaptureConfig,
+            collectionEnabled: collectionEnabled)
         result("Instana did setup")
     }
 
@@ -308,6 +317,7 @@ extension SwiftInstanaAgentPlugin {
         case reportingUrl
         case key
         case collectionEnabled
+        case captureNativeHttp
         case setCaptureHeaders
         case regex
         case value

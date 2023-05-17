@@ -21,7 +21,8 @@ class InstanaAgent {
     return await _channel.invokeMethod('setup', <String, dynamic>{
       'key': key,
       'reportingUrl': reportingUrl,
-      'collectionEnabled': options?.collectionEnabled
+      'collectionEnabled': options?.collectionEnabled,
+      'captureNativeHttp': options?.captureNativeHttp
     });
   }
 
@@ -189,6 +190,9 @@ class Marker {
 class SetupOptions {
   ///  Enable or disable collection (instrumentation) on setup. Can be changed later via the property `collectionEnabled` (Default: true)
   bool collectionEnabled = true;
+
+  ///  Enable or disable native http capture, ie. capture http made in Android (Kotlin/Java) or iOS (swift/Objective C) (Default: false)
+  bool captureNativeHttp = false;
 }
 
 /// This class contains all the options you can provide for the Custom Events reported through [InstanaAgent.reportEvent()]
