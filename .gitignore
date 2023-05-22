@@ -8,5 +8,5 @@ build/
 
 .idea
 
-pubspec.lock
+/pubspec.lock
 
