@@ -174,6 +174,19 @@ apply plugin: 'com.instana.android-agent-plugin'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 ```
 
+## How to enable http auto capture
+Since flutter-agent version 2.6.0, we are able to auto capture http calls made within Dart. Set your HttpOverrides.global like following:
+```dart
+@override
+void main() {
+   HttpOverrides.global = InstanaHttpOverrides();
+   runApp(const MyApp());
+}
+```
+If you already have your own version of HttpOverrides for other purpose, please merge the functionality of InstanaHttpOverrides class with your class and maintain the combined class by yourself. Chain in multiple HttpOverrides is error prone.
+You can also analyze InstanaHttpOverrides class, create your own HttpOverrides class to do what InstanaHttpOverrides class is doing instead of calling InstanaHttpOverrides().
+
+If you enable http auto capture, stop using above sample code like InstanaAgent.startCapture(), _InstrumentedHttpClient() otherwise double capture will occur. Sure InstanaAgent.setup() is always needed.
 
 ## More
 

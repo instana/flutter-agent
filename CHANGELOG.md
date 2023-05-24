@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.6.0
+- Add InstanaHttpOverrides class to auto capture http calls made in Dart
+
 ## 2.5.0
 - Support native http capture (Kotlin/Java for Android, swift/ObjectiveC for iOS)
 - Upgrade example app Android platform AGP to version 7.3.1
