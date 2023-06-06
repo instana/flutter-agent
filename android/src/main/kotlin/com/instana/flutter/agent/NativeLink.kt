@@ -65,7 +65,7 @@ internal class NativeLink {
                 app,
                 config
             )
-            result.success(null)
+            result.success(true)
         }
     }
 

@@ -7,6 +7,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:instana_agent/instana_agent.dart';
@@ -30,9 +31,23 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     /// Initializes Instana. Must be run only once as soon as possible in the app's lifecycle
+    setupInstana();
+
+    /// optional
+    futureAlbum = fetchAlbum();
+  }
+
+  void setupInstana() async {
     var options = SetupOptions();
     options.collectionEnabled = false;
-    InstanaAgent.setup(key: 'key', reportingUrl: 'URL', options: options);
+    // options.slowSendInterval = 60.0; // enable slow send mode on beacon send failure, send interval is 60 seconds
+    bool ret = await InstanaAgent.setup(key: 'key', reportingUrl: 'URL', options: options);
+    if (!ret) {
+      // Error handling here
+      if (kDebugMode) {
+        print("InstanaAgent setup failed");
+      }
+    }
 
     setUserIdentifiers();
 
@@ -49,9 +64,6 @@ class _MyAppState extends State<MyApp> {
 
     /// optional
     reportCustomEvents();
-
-    /// optional
-    futureAlbum = fetchAlbum();
   }
 
   /// Set user identifiers

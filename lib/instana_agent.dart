@@ -14,7 +14,7 @@ class InstanaAgent {
   /// Initializes Instana with a [key] and [reportingUrl] and optionally with SetupOptions
   ///
   /// Please run this as soon as possible in your app's lifecycle
-  static Future<void> setup(
+  static Future<bool> setup(
       {required String key,
       required String reportingUrl,
       SetupOptions? options}) async {
@@ -22,7 +22,8 @@ class InstanaAgent {
       'key': key,
       'reportingUrl': reportingUrl,
       'collectionEnabled': options?.collectionEnabled,
-      'captureNativeHttp': options?.captureNativeHttp
+      'captureNativeHttp': options?.captureNativeHttp,
+      'slowSendInterval': options?.slowSendInterval
     });
   }
 
@@ -193,6 +194,14 @@ class SetupOptions {
 
   ///  Enable or disable native http capture, ie. capture http made in Android (Kotlin/Java) or iOS (swift/Objective C) (Default: false)
   bool captureNativeHttp = false;
+
+  ///  Enable slow send mode on beacon send failure if slowSendInterval is set to a positive number (Default: 0.0 means disabled)
+  ///  In slow send mode, each time flutter-agent sends one beacon to server instead of a batch (maximum 100) of beacons.
+  ///  If this beacon send succeeded, send mode is back to default pace. Otherwise beacon sending is kept in this slow mode.
+  ///  Default beacon send interval is 2 seconds.
+  ///  Unit of slowSendInterval is in seconds.
+  ///  Slow send mode replaces traditional fail and retry approach.
+  double slowSendInterval = 0.0;
 }
 
 /// This class contains all the options you can provide for the Custom Events reported through [InstanaAgent.reportEvent()]

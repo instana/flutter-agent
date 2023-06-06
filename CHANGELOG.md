@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.7.0
+- Upgrade iOS agent to 1.6.1 which improves error handling on beacon send failure
+
 ## 2.6.0
 - Add InstanaHttpOverrides class to auto capture http calls made in Dart
 
