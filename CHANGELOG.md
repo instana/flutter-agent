@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.7.1
+- Upgrade android-agent to 6.0.2 which improves error handling on beacon send failure
+
 ## 2.7.0
 - Upgrade iOS agent to 1.6.1 which improves error handling on beacon send failure
 

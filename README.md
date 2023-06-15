@@ -159,7 +159,7 @@ void initState() {
 1. In project level build.gradle file, add **android-agent-plugin** to classpath section.
 ```groovy
 buildscript {
-    ext.native_instana_version = '5.2.4' //version must be same as the android-agent version used by flutter-agent
+    ext.native_instana_version = '6.0.2' //version must be same as the android-agent version used by flutter-agent
     // other setups here
     dependencies {
         // other classpaths here
