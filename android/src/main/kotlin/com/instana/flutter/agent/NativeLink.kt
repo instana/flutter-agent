@@ -26,8 +26,7 @@ internal class NativeLink {
         reportingUrl: String?,
         key: String?,
         collectionEnabled: Boolean?,
-        captureNativeHttp: Boolean?,
-        slowSendInterval: Double?
+        captureNativeHttp: Boolean?
     ) {
         if (key.isNullOrBlank()) {
             result.error(
@@ -48,15 +47,6 @@ internal class NativeLink {
                 null
             )
         } else {
-            var slowSendIntervalMillis: Long? = null
-            if (slowSendInterval != null && slowSendInterval!! != 0.0) {
-                if (slowSendInterval!! < 2.0 || slowSendInterval!! > 3600.0) {
-                    result.success(false)
-                    return
-                }
-                slowSendIntervalMillis = (slowSendInterval!! * 1000).toLong()
-            }
-
             var httpCaptureConfig: HTTPCaptureConfig
             if (captureNativeHttp ?: false) {
                 httpCaptureConfig = HTTPCaptureConfig.AUTO
@@ -66,8 +56,7 @@ internal class NativeLink {
             val config = InstanaConfig(
                 reportingURL = reportingUrl,
                 key = key,
-                httpCaptureConfig = httpCaptureConfig,
-                slowSendIntervalMillis = slowSendIntervalMillis
+                httpCaptureConfig = httpCaptureConfig
                 )
             if (collectionEnabled != null) {
                 config.collectionEnabled = collectionEnabled

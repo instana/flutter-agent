@@ -40,14 +40,7 @@ class _MyAppState extends State<MyApp> {
   void setupInstana() async {
     var options = SetupOptions();
     options.collectionEnabled = false;
-    // options.slowSendInterval = 60.0; // enable slow send mode on beacon send failure, send interval is 60 seconds
-    bool ret = await InstanaAgent.setup(key: 'key', reportingUrl: 'URL', options: options);
-    if (!ret) {
-      // Error handling here
-      if (kDebugMode) {
-        print("InstanaAgent setup failed");
-      }
-    }
+    await InstanaAgent.setup(key: '<key>', reportingUrl: '<reportingUrl>', options: options);
 
     setUserIdentifiers();
 

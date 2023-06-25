@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.7.2
+- Use android-agent 5.2.7 which allows Java/Kotlin http capture for Google Ads
+
 ## 2.7.1
 - Upgrade android-agent to 6.0.2 which improves error handling on beacon send failure
 
