@@ -5,8 +5,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
-
 import 'instana_agent.dart';
 
 class InstanaHttpOverrides extends HttpOverrides {
