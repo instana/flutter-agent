@@ -24,7 +24,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<Album> futureAlbum;
+  late Future<Album> futureAlbum;
 
   @override
   void initState() {
@@ -159,9 +159,9 @@ class _MyAppState extends State<MyApp> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Text("Title: " +
-                        snapshot.data.title +
+                        snapshot.data!.title +
                         "\nID: " +
-                        snapshot.data.id.toString());
+                        snapshot.data!.id.toString());
                   } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");
                   } else {
@@ -182,7 +182,7 @@ class Album {
   final int id;
   final String title;
 
-  Album({this.userId, this.id, this.title});
+  Album({required this.userId, required this.id, required this.title});
 
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(

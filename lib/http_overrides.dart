@@ -138,9 +138,6 @@ class InstanaHttpClientRequest implements HttpClientRequest {
     final Marker? localMarker = _marker;
 
     if (_marker == null) {
-      if (kDebugMode) {
-        print("Instana Marker cannot be null");
-      }
       return;
     }
     _marker = null;
@@ -390,15 +387,13 @@ class InstanaHttpClient implements HttpClient {
     });
   }
 
-  Future<InstanaHttpClientRequest> _wrapHttpClientRequest(HttpClientRequest request) async {
+  Future<HttpClientRequest> _wrapHttpClientRequest(HttpClientRequest request) async {
     Marker? marker;
     try {
       marker = await InstanaAgent.startCapture(url: request.uri.toString(),
           method: request.method);
     } catch (e) {
-      if (kDebugMode) {
-        print("InstanaAgent startCapture error - ${e.toString()}");
-      }
+      return request;
     }
     return InstanaHttpClientRequest(request, marker);
   }

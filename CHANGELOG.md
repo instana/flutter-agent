@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.1
+- Remove print in code since it conflicts with some linter rules
+- Upgrade iOS agent to 1.6.2 which improves slow send mode
+- Update flutter sdk constraint to '>=2.12.0 <4.0.0'
+
 ## 3.0.0
 - Upgrade android-agent to 6.0.3 which allows Java/Kotlin http capture for Google Ads
 
