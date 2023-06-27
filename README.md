@@ -9,7 +9,7 @@ Instana agent allows Flutter apps to send monitoring data to Instana.
 
 ## Requirements
 - Flutter version 1.20.0+
-- Dart version between 2.12.0 and 3.0.0
+- Dart version between 2.12.0 and 4.0.0
 
 ## Installation
 
