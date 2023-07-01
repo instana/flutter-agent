@@ -1,5 +1,8 @@
 # Changelog
 
+## `3.0.2`
+- Add new feature to redact password, key, secrets from HTTP query parameters
+
 ## 3.0.1
 - Remove print in code since it conflicts with some linter rules
 - Upgrade iOS agent to 1.6.2 which improves slow send mode

@@ -109,6 +109,13 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     regex = list
                 )
             }
+            "redactHTTPQuery" -> {
+                val list: List<String?>? = call.argument("redactHTTPQueryRegEx")
+                nativeLink.redactHTTPQuery(
+                    result = result,
+                    regex = list
+                )
+            }
             "reportEvent" -> {
                 val eventName: String? = call.argument("eventName")
                 val startTime: Double? = call.argument("startTime")
