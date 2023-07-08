@@ -1,6 +1,6 @@
 # Changelog
 
-## `3.0.2`
+## 3.0.2
 - Add new feature to redact password, key, secrets from HTTP query parameters
 
 ## 3.0.1

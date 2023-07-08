@@ -159,11 +159,7 @@ internal class NativeLink {
                 null
             )
         } else {
-            regex.toString()
-            print("hjtest 1 regex=$regex")
-            print("hjtest 2 regex string=${regex.toString()}")
             val patterns = regex.filterNotNull().map { it.toPattern() }
-            print("hjtest 3 regex patterns=$patterns")
             Instana.redactHTTPQuery.addAll(patterns)
             result.success(null)
         }
