@@ -141,7 +141,7 @@ internal class NativeLink {
         if (regex == null) {
             result.error(
                 ErrorCode.MISSING_OR_INVALID_ARGUMENT.serialized,
-                "Instana requires non-blank 'meta keys'",
+                "Instana requires non-blank 'headers'",
                 null
             )
         } else {
@@ -151,6 +151,19 @@ internal class NativeLink {
         }
     }
 
+    fun redactHTTPQuery(result: MethodChannel.Result, regex: List<String?>?) {
+        if (regex == null) {
+            result.error(
+                ErrorCode.MISSING_OR_INVALID_ARGUMENT.serialized,
+                "Instana requires non-blank 'http query keys'",
+                null
+            )
+        } else {
+            val patterns = regex.filterNotNull().map { it.toPattern() }
+            Instana.redactHTTPQuery.addAll(patterns)
+            result.success(null)
+        }
+    }
     fun reportEvent(
         result: MethodChannel.Result,
         eventName: String?,

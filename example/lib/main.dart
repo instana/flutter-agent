@@ -62,6 +62,8 @@ class _MyAppState extends State<MyApp> {
       'x-ratelimit-reset'
     ]);
 
+    InstanaAgent.redactHTTPQuery(regex: ['uid', 'user']);
+
     /// optional
     reportCustomEvents();
   }
@@ -120,7 +122,8 @@ class _MyAppState extends State<MyApp> {
 
     Random random = new Random();
     var id = random.nextInt(100);
-    var url = 'https://jsonplaceholder.typicode.com/albums/' + id.toString();
+    var uid = random.nextInt(1000);
+    var url = 'https://jsonplaceholder.typicode.com/albums/${id}?uid=${uid}';
     final http.Request request = http.Request("GET", Uri.parse(url));
 
     final response = await httpClient.send(request);

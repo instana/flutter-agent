@@ -85,6 +85,18 @@ class InstanaAgent {
         .invokeMethod('setMeta', <String, dynamic>{'key': key, 'value': value});
   }
 
+  /// Provide a List of String with regular expressions to redact values from the captured http query
+  /// Example: "passwor(t|d)" to redact the password or passwort parameter
+  ///
+  /// Default: We redact all query values matching the parameter: key, secret, password (also myKey or Password)
+  ///
+  /// - Parameters:
+  ///    - regex: List of String that is used for the redaction
+  static Future<void> redactHTTPQuery({required List<String> regex}) async {
+    await _channel.invokeMethod(
+        'redactHTTPQuery', <String, dynamic>{'redactHTTPQueryRegEx': regex});
+  }
+
   /// Sends a Custom Event beacon to Instana
   static Future<void> reportEvent(
       {required String name, EventOptions? options}) async {
