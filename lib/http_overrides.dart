@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2023
  */
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -277,17 +278,28 @@ class InstanaHttpClient implements HttpClient {
   }
 
   @override
-  Future<HttpClientRequest> delete(String host, int port, String path) {
-    return _httpClient.delete(host, port, path).then((request){
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> delete(String host, int port, String path) async {
+    var url = Uri.parse('http://$host:$port$path');
+    Marker? marker = await _createMarker(url.toString(), 'DELETE');
+    try {
+      var request = await _httpClient.delete(host, port, path);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
-  Future<HttpClientRequest> deleteUrl(Uri url) {
-    return _httpClient.deleteUrl(url).then((request){
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> deleteUrl(Uri url) async {
+    Marker? marker = await _createMarker(url.toString(), 'DELETE');
+    try {
+      var request = await _httpClient.deleteUrl(url);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
@@ -296,31 +308,53 @@ class InstanaHttpClient implements HttpClient {
   }
 
   @override
-  Future<HttpClientRequest> get(String host, int port, String path) {
-    return _httpClient.get(host, port, path).then((request) {
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> get(String host, int port, String path) async {
+    var url = Uri.parse('http://$host:$port$path');
+    Marker? marker = await _createMarker(url.toString(), 'GET');
+    try {
+      var request = await _httpClient.get(host, port, path);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
-  Future<HttpClientRequest> getUrl(Uri url) {
-    return _httpClient.getUrl(url).then((request) {
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> getUrl(Uri url) async {
+    Marker? marker = await _createMarker(url.toString(), 'GET');
+    try {
+      var request = await _httpClient.getUrl(url);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
-  Future<HttpClientRequest> head(String host, int port, String path) {
-    return _httpClient.head(host, port, path).then((request) {
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> head(String host, int port, String path) async {
+    var url = Uri.parse('http://$host:$port$path');
+    Marker? marker = await _createMarker(url.toString(), 'HEAD');
+    try {
+      var request = await _httpClient.head(host, port, path);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
-  Future<HttpClientRequest> headUrl(Uri url) {
-    return _httpClient.headUrl(url).then((request) {
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> headUrl(Uri url) async {
+    Marker? marker = await _createMarker(url.toString(), 'HEAD');
+    try {
+      var request = await _httpClient.headUrl(url);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
@@ -329,70 +363,117 @@ class InstanaHttpClient implements HttpClient {
   }
 
   @override
-  Future<HttpClientRequest> open(
-      String method, String host, int port, String path) {
-    return _httpClient.open(method, host, port, path).then((request) {
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> open(String method, String host, int port, String path) async {
+    var url = Uri.parse('http://$host:$port$path');
+    Marker? marker = await _createMarker(url.toString(), method);
+    try {
+      var request = await _httpClient.open(method, host, port, path);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
-  Future<HttpClientRequest> openUrl(String method, Uri url) {
-    return _httpClient.openUrl(method, url).then((request) {
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> openUrl(String method, Uri url) async {
+    Marker? marker = await _createMarker(url.toString(), method);
+    try {
+      var request = await _httpClient.openUrl(method, url);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
-  Future<HttpClientRequest> patch(String host, int port, String path) {
-    return _httpClient.patch(host, port, path).then((request) {
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> patch(String host, int port, String path) async {
+    var url = Uri.parse('http://$host:$port$path');
+    Marker? marker = await _createMarker(url.toString(), 'PATCH');
+    try {
+      var request = await _httpClient.patch(host, port, path);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
-  Future<HttpClientRequest> patchUrl(Uri url) {
-    return _httpClient.patchUrl(url).then((request) {
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> patchUrl(Uri url) async {
+    Marker? marker = await _createMarker(url.toString(), 'PATCH');
+    try {
+      var request = await _httpClient.patchUrl(url);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
-  Future<HttpClientRequest> post(String host, int port, String path) {
-    return _httpClient.post(host, port, path).then((request){
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> post(String host, int port, String path) async {
+    var url = Uri.parse('http://$host:$port$path');
+    Marker? marker = await _createMarker(url.toString(), 'POST');
+    try {
+      var request = await _httpClient.post(host, port, path);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
-  Future<HttpClientRequest> postUrl(Uri url) {
-    return _httpClient.postUrl(url).then((request){
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> postUrl(Uri url) async {
+    Marker? marker = await _createMarker(url.toString(), 'POST');
+    try {
+      var request = await _httpClient.postUrl(url);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
-  Future<HttpClientRequest> put(String host, int port, String path) {
-    return _httpClient.put(host, port, path).then((request){
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> put(String host, int port, String path) async {
+    var url = Uri.parse('http://$host:$port$path');
+    Marker? marker = await _createMarker(url.toString(), 'PUT');
+    try {
+      var request = await _httpClient.put(host, port, path);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
   @override
-  Future<HttpClientRequest> putUrl(Uri url) {
-    return _httpClient.putUrl(url).then((request){
-      return _wrapHttpClientRequest(request);
-    });
+  Future<HttpClientRequest> putUrl(Uri url) async {
+    Marker? marker = await _createMarker(url.toString(), 'PUT');
+    try {
+      var request = await _httpClient.putUrl(url);
+      return InstanaHttpClientRequest(request, marker);
+    } catch (e) {
+      _reportError(marker, e.toString());
+      rethrow;
+    }
   }
 
-  Future<HttpClientRequest> _wrapHttpClientRequest(HttpClientRequest request) async {
+  Future<Marker?> _createMarker(String url, String method) async {
     Marker? marker;
     try {
-      marker = await InstanaAgent.startCapture(url: request.uri.toString(),
-          method: request.method);
+      marker = await InstanaAgent.startCapture(url: url, method: method);
     } catch (e) {
-      return request;
+      // error handling here
     }
-    return InstanaHttpClientRequest(request, marker);
+    return marker;
+  }
+
+  Future<void> _reportError(Marker? marker, String errorMsg) async {
+    marker?.errorMessage = errorMsg;
+    marker?.finish();
   }
 }

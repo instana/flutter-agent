@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.3
+- Report http timeout error to Instana backend in InstanaHttpOverrides
+
 ## 3.0.2
 - Add new feature to redact password, key, secrets from HTTP query parameters
 - Upgrade iOS agent to 1.6.3 which fixed duplicated beacons issue
