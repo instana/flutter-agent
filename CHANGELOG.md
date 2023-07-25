@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.4
+- Upgrade Android agent to 6.0.5 which fixed duplicated beacons issue
+
 ## 3.0.3
 - Report http timeout error to Instana backend in InstanaHttpOverrides
 - Upgrade iOS agent to 1.6.4 which fixed http response header capture issue
