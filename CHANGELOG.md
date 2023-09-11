@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.5
+- Support user session id by upgrading iOSAgent to 1.6.5, android-agent to 6.0.6
+
 ## 3.0.4
 - Upgrade Android agent to 6.0.5 which fixed duplicated beacons issue
 

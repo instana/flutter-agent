@@ -27,7 +27,8 @@ internal class NativeLink {
         key: String?,
         collectionEnabled: Boolean?,
         captureNativeHttp: Boolean?,
-        slowSendInterval: Double?
+        slowSendInterval: Double?,
+        usiRefreshTimeIntervalInHrs: Double?
     ) {
         if (key.isNullOrBlank()) {
             result.error(
@@ -57,6 +58,13 @@ internal class NativeLink {
                 slowSendIntervalMillis = (slowSendInterval!! * 1000).toLong()
             }
 
+            var usiRefreshTimeIntervalInHrsLong: Long
+            if (usiRefreshTimeIntervalInHrs == null) {
+                usiRefreshTimeIntervalInHrsLong = -1
+            } else {
+                usiRefreshTimeIntervalInHrsLong = usiRefreshTimeIntervalInHrs.toLong()
+            }
+
             var httpCaptureConfig: HTTPCaptureConfig
             if (captureNativeHttp ?: false) {
                 httpCaptureConfig = HTTPCaptureConfig.AUTO
@@ -67,7 +75,8 @@ internal class NativeLink {
                 reportingURL = reportingUrl,
                 key = key,
                 httpCaptureConfig = httpCaptureConfig,
-                slowSendIntervalMillis = slowSendIntervalMillis
+                slowSendIntervalMillis = slowSendIntervalMillis,
+                usiRefreshTimeIntervalInHrs = usiRefreshTimeIntervalInHrsLong
                 )
             if (collectionEnabled != null) {
                 config.collectionEnabled = collectionEnabled

@@ -40,6 +40,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                 val collectionEnabled: Boolean? = call.argument("collectionEnabled")
                 val captureNativeHttp: Boolean? = call.argument("captureNativeHttp")
                 val slowSendIntervalSeconds: Double? = call.argument("slowSendInterval")
+                val usiRefreshTimeIntervalInHrs: Double? = call.argument("usiRefreshTimeIntervalInHrs")
                 return nativeLink.setUpInstana(
                     result = result,
                     app = app,
@@ -47,7 +48,8 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     key = key,
                     collectionEnabled = collectionEnabled,
                     captureNativeHttp = captureNativeHttp,
-                    slowSendInterval = slowSendIntervalSeconds
+                    slowSendInterval = slowSendIntervalSeconds,
+                    usiRefreshTimeIntervalInHrs = usiRefreshTimeIntervalInHrs
                 )
             }
             "setCollectionEnabled" -> {

@@ -99,6 +99,7 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         let collectionEnabled = bool(for: .collectionEnabled, at: call) ?? true
         let captureNativeHttp = bool(for: .captureNativeHttp, at: call) ?? false
         let slowSendInterval = double(for: .slowSendInterval, at: call)
+        let usiRefreshTimeIntervalInHrs = double(for: .usiRefreshTimeIntervalInHrs, at: call)
 
         var httpCaptureConfig: HTTPCaptureConfig
         if captureNativeHttp {
@@ -111,6 +112,9 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
                                          collectionEnabled: collectionEnabled)
         if slowSendInterval != nil {
             options.slowSendInterval = slowSendInterval!
+        }
+        if usiRefreshTimeIntervalInHrs != nil {
+            options.usiRefreshTimeIntervalInHrs = usiRefreshTimeIntervalInHrs!
         }
         let ret = Instana.setup(key: key, reportingURL: url, options: options)
         result(ret)
@@ -340,6 +344,7 @@ extension SwiftInstanaAgentPlugin {
         case collectionEnabled
         case captureNativeHttp
         case slowSendInterval
+        case usiRefreshTimeIntervalInHrs
         case setCaptureHeaders
         case regex
         case value

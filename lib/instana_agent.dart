@@ -23,7 +23,8 @@ class InstanaAgent {
       'reportingUrl': reportingUrl,
       'collectionEnabled': options?.collectionEnabled,
       'captureNativeHttp': options?.captureNativeHttp,
-      'slowSendInterval': options?.slowSendInterval
+      'slowSendInterval': options?.slowSendInterval,
+      'usiRefreshTimeIntervalInHrs': options?.usiRefreshTimeIntervalInHrs
     });
   }
 
@@ -214,6 +215,12 @@ class SetupOptions {
   ///  Unit of slowSendInterval is in seconds.
   ///  Slow send mode replaces traditional fail and retry approach.
   double slowSendInterval = 0.0;
+
+  /// Enable user session id. Default value is -1.
+  /// Negative value means user session id is enabled and remains unchanged after first creation.
+  /// A positive number means user session id is refreshed (a new one is created) after that many hours.
+  /// 0.0 means user session id is disabled.
+  double usiRefreshTimeIntervalInHrs = -1.0;
 }
 
 /// This class contains all the options you can provide for the Custom Events reported through [InstanaAgent.reportEvent()]
