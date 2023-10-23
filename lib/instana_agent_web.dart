@@ -30,7 +30,6 @@ class InstanaAgentPlugin {
   /// Note: Check the "federated" architecture for a new way of doing this:
   /// https://flutter.dev/go/federated-plugins
   Future<dynamic> handleMethodCall(MethodCall call) async {
-    print(call.toString());
     var args = jsonDecode(jsonEncode(call.arguments));
     switch (call.method) {
       case 'setup':
