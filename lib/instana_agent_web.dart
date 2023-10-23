@@ -7,7 +7,11 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:instana_agent/web/instana_agent_js.dart';
+import 'package:js/js_util.dart';
 
+/// A web implementation of the InstanaAgent plugin.
+///
+/// https://www.ibm.com/docs/en/instana-observability/current?topic=websites-javascript-agent-api
 class InstanaAgentPlugin {
   static late MethodChannel _channel;
 
@@ -42,14 +46,18 @@ class InstanaAgentPlugin {
       case 'setView':
         return ineum('page', args['viewName']);
       case 'reportEvent':
-        return ineum('reportEvent', args['eventName'], {
-          'timestamp': args['startTime'],
-          'duration': args['duration'],
-          'backendTraceId': args['backendTracingID'],
-          'error': null,
-          'componentStack': null,
-          'meta': args['meta'], // not working yet and don't know why
-        });
+        return ineum(
+          'reportEvent',
+          args['eventName'],
+          jsify({
+            'timestamp': args['startTime'],
+            'duration': args['duration'],
+            'backendTraceId': args['backendTracingID'],
+            'error': null,
+            'componentStack': null,
+            'meta': args['meta'],
+          }),
+        );
       default:
         throw PlatformException(
           code: 'Unimplemented',
