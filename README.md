@@ -56,6 +56,14 @@ import 'package:instana_agent/instana_agent.dart';
 InstanaAgent.setView('Home');
 ```
 
+## Tracking HTTP requests in webview
+
+We encourage using hybrid way to track http requests in webview. Therefore some requests are tracked with mobile key like custom events added in onNavigationRequest. Some others are tracked with web key through javascript injection, ie. runJavaScript call.
+
+For runJavaScript call, the best place is in onPageFinished handling of navigation delegate. However, if network is very slow or certain website is blocked during navigation, we use timer to periodically inject javascript into webview. Adjust timer interval and total duration time to fit your network. A couple of other places where runJavaScript is called are also for similar purpose.
+
+Replace <REPORTING_URL>, <INSTANA_WEB_KEY> and <INSTANA_MOBILE_KEY> with your own configuration values.
+
 ## Tracking HTTP requests
 
 At any point after initializing the Instana agent:

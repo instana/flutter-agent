@@ -4,15 +4,13 @@
  */
 
 import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:instana_agent/instana_agent.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-import 'http_client.dart';
+import 'Constants.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,7 +22,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Future<Album> futureAlbum;
+  Timer? timer = null;
 
   @override
   void initState() {
@@ -32,167 +30,116 @@ class _MyAppState extends State<MyApp> {
 
     /// Initializes Instana. Must be run only once as soon as possible in the app's lifecycle
     setupInstana();
+  }
 
-    /// optional
-    futureAlbum = fetchAlbum();
+  void periodicInjection(int durationInMinutes, int intervalInMilliSeconds) {
+    disposeWebviewInjectionTimer();
+
+    timer = Timer.periodic(Duration(milliseconds: intervalInMilliSeconds), (timer) {
+      print("Running Injection");
+      controller.runJavaScript(scriptWeasel);
+      if ((timer.tick * intervalInMilliSeconds) >=
+          (durationInMinutes * 60 * 1000)) {
+        disposeWebviewInjectionTimer();
+      }
+    });
   }
 
   void setupInstana() async {
-    var options = SetupOptions();
-    options.collectionEnabled = false;
-    // options.slowSendInterval = 60.0; // enable slow send mode on beacon send failure, send interval is 60 seconds
-    // options.usiRefreshTimeIntervalInHrs = 24.0; // refresh user session id every 24 hours
-    bool ret = await InstanaAgent.setup(key: 'key', reportingUrl: 'URL', options: options);
+    SetupOptions options = SetupOptions();
+    options.captureNativeHttp = true;
+    bool ret = await InstanaAgent.setup(
+        key: '<INSTANA_MOBILE_KEY>',
+        reportingUrl: '<REPORTING_URL>/mobile',
+        options: options);
     if (!ret) {
       // Error handling here
       if (kDebugMode) {
         print("InstanaAgent setup failed");
       }
     }
-
-    setUserIdentifiers();
-
-    InstanaAgent.setCollectionEnabled(true);
-
-    /// optional
-    setView();
-
-    InstanaAgent.setCaptureHeaders(regex: [
-      'x-ratelimit-limit',
-      'x-ratelimit-remaining',
-      'x-ratelimit-reset'
-    ]);
-
-    InstanaAgent.redactHTTPQuery(regex: ['uid', 'user']);
-
-    /// optional
-    reportCustomEvents();
-  }
-
-  /// Set user identifiers
-  ///
-  /// These will be attached to all subsequent beacons
-  setUserIdentifiers() {
-    InstanaAgent.setUserID('1234567890');
-    InstanaAgent.setUserName('Boty McBotFace');
-    InstanaAgent.setUserEmail('boty@mcbot.com');
-  }
-
-  /// Setting a view allows for easier logical segmentation of beacons in the timeline shown in the Instana Dashboard's Session
-  setView() {
-    InstanaAgent.setView('Home');
-  }
-
-  /// At any time, Metadata can be added to Instana beacons and events can be generated
-  Future<void> reportCustomEvents() async {
-    InstanaAgent.setMeta(key: 'exampleGlobalKey', value: 'exampleGlobalValue');
-
-    await InstanaAgent.reportEvent(name: 'simpleCustomEvent');
-    await InstanaAgent.reportEvent(
-        name: 'complexCustomEvent',
-        options: EventOptions()
-          ..viewName = 'customViewName'
-          ..startTime = DateTime.now().millisecondsSinceEpoch
-          ..duration = 2 * 1000);
-    await InstanaAgent.reportEvent(
-        name: 'advancedCustomEvent',
-        options: EventOptions()
-          ..viewName = 'customViewName'
-          ..startTime = DateTime.now().millisecondsSinceEpoch
-          ..duration = 3 * 1000
-          ..meta = {
-            'customKey1': 'customValue1',
-            'customKey2': 'customValue2'
-          });
-    await InstanaAgent.startCapture(
-            url: 'https://example.com/failure', method: 'GET')
-        .then((marker) => marker
-          ..responseStatusCode = 500
-          ..responseSizeBody = 1000
-          ..responseSizeBodyDecoded = 2400
-          ..errorMessage = 'Download of album failed'
-          ..finish());
-    await InstanaAgent.startCapture(
-            url: 'https://example.com/cancel', method: 'POST')
-        .then((marker) => marker.cancel());
-  }
-
-  Future<Album> fetchAlbum() async {
-    final InstrumentedHttpClient httpClient =
-        InstrumentedHttpClient(http.Client());
-
-    Random random = new Random();
-    var id = random.nextInt(100);
-    var uid = random.nextInt(1000);
-    var url = 'https://jsonplaceholder.typicode.com/albums/${id}?uid=${uid}';
-    final http.Request request = http.Request("GET", Uri.parse(url));
-
-    final response = await httpClient.send(request);
-    if (response.statusCode == 200) {
-      var responseBody = await response.stream.bytesToString();
-      return Album.fromJson(jsonDecode(responseBody));
-    } else {
-      throw Exception('Failed to load album');
-    }
+    await InstanaAgent.setView('Home');
   }
 
   @override
   Widget build(BuildContext context) {
+    controller.currentUrl().then((value) async =>
+        await InstanaAgent.startCapture(url: value.toString(), method: 'GET')
+            .then((value) => value.finish()));
+    controller.setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (int progress) {
+          // Update loading bar.
+        },
+        onPageStarted: (String url) {
+          controller.runJavaScript(scriptWeasel);
+          periodicInjection(5, 500);
+          print("URLs onPageStarted: $url");
+        },
+        onPageFinished: (String url) {
+          disposeWebviewInjectionTimer();
+          controller.runJavaScript(scriptWeasel); //best place to inject javascript
+          print("URLs onPageFinished: $url");
+        },
+        onWebResourceError: (WebResourceError error) {},
+        onNavigationRequest: (NavigationRequest request) async {
+          controller.runJavaScript(scriptWeasel);
+          print("URLs onNavigationRequest: ${request.url}");
+          if (request.url.toString() != "about:blank") {
+            await InstanaAgent.reportEvent(
+                name: "${request.url}",
+                options: EventOptions()
+                  ..viewName = 'webView'
+                  ..startTime = DateTime.now().millisecondsSinceEpoch
+                  ..duration = 0);
+          }
+          return NavigationDecision.navigate;
+        },
+      ),
+    );
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.all(8.0),
-                    textStyle: const TextStyle(fontSize: 16, color: Colors.blue),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.all(8.0),
+                      textStyle:
+                          const TextStyle(fontSize: 16, color: Colors.blue),
+                    ),
+                    onPressed: () {
+                      controller.goBack();
+                    },
+                    child: Text("back")),
+                Container(
+                  width: double.infinity,
+                  height: 550.0,
+                  child: WebViewWidget(
+                    controller: controller,
                   ),
-                  onPressed: () {
-                    this.setState(() {
-                      futureAlbum = fetchAlbum();
-                    });
-                  },
-                  child: Text("Reload")),
-              FutureBuilder<Album>(
-                future: futureAlbum,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text("Title: " +
-                        snapshot.data!.title +
-                        "\nID: " +
-                        snapshot.data!.id.toString());
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  } else {
-                    return Text("Loading...");
-                  }
-                },
-              )
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-}
 
-class Album {
-  final int userId;
-  final int id;
-  final String title;
+  @override
+  void dispose() {
+    disposeWebviewInjectionTimer();
+    super.dispose();
+  }
 
-  Album({required this.userId, required this.id, required this.title});
-
-  factory Album.fromJson(Map<String, dynamic> json) {
-    return Album(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-    );
+  void disposeWebviewInjectionTimer() {
+    timer?.cancel();
+    timer = null;
   }
 }

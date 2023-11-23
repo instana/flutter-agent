@@ -6,10 +6,13 @@ PODS:
     - InstanaAgent (= 1.6.5)
   - InstanaAgent (1.6.5):
     - GzipSwift
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - instana_agent (from `.symlinks/plugins/instana_agent/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
   trunk:
@@ -21,12 +24,15 @@ EXTERNAL SOURCES:
     :path: Flutter
   instana_agent:
     :path: ".symlinks/plugins/instana_agent/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   GzipSwift: 893f3e48e597a1a4f62fafcb6514220fcf8287fa
   instana_agent: 7521dac633123a5d355795aae206c03a2d24ab41
   InstanaAgent: 05f16ff2e2390e057ce5a4ef98ae0a4c5c523747
+  webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
