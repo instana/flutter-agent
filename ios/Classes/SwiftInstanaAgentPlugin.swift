@@ -116,7 +116,10 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         if usiRefreshTimeIntervalInHrs != nil {
             options.usiRefreshTimeIntervalInHrs = usiRefreshTimeIntervalInHrs!
         }
-        let ret = Instana.setup(key: key, reportingURL: url, options: options)
+
+        let hybridOptions = HybridAgentOptions(id: "f", version: "3.0.6")
+        let ret = Instana.setupInternal(key: key, reportingURL: url,
+                                options: options, hybridOptions: hybridOptions)
         result(ret)
     }
 
@@ -345,6 +348,8 @@ extension SwiftInstanaAgentPlugin {
         case captureNativeHttp
         case slowSendInterval
         case usiRefreshTimeIntervalInHrs
+        case hybridAgentId
+        case hybridAgentVersion
         case setCaptureHeaders
         case regex
         case value

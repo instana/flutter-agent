@@ -24,7 +24,9 @@ class InstanaAgent {
       'collectionEnabled': options?.collectionEnabled,
       'captureNativeHttp': options?.captureNativeHttp,
       'slowSendInterval': options?.slowSendInterval,
-      'usiRefreshTimeIntervalInHrs': options?.usiRefreshTimeIntervalInHrs
+      'usiRefreshTimeIntervalInHrs': options?.usiRefreshTimeIntervalInHrs,
+      'hybridAgentId': 'f',
+      'hybridAgentVersion': '3.0.6'
     });
   }
 

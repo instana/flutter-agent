@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.6
+- Pass flutter-agent id and version down to iOSAgent and android-agent
+- Upgrade iOSAgent to 1.6.8, android-agent to 6.0.12
+
 ## 3.0.5
 - Support user session id by upgrading iOSAgent to 1.6.5, android-agent to 6.0.6
 

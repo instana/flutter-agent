@@ -8,6 +8,7 @@ package com.instana.flutter.agent
 import android.app.Application
 import com.instana.android.CustomEvent
 import com.instana.android.Instana
+import com.instana.android.core.HybridAgentOptions
 import com.instana.android.core.InstanaConfig
 import com.instana.android.instrumentation.HTTPCaptureConfig
 import com.instana.android.instrumentation.HTTPMarker
@@ -28,7 +29,9 @@ internal class NativeLink {
         collectionEnabled: Boolean?,
         captureNativeHttp: Boolean?,
         slowSendInterval: Double?,
-        usiRefreshTimeIntervalInHrs: Double?
+        usiRefreshTimeIntervalInHrs: Double?,
+        hybridAgentId: String?,
+        hybridAgentVersion: String?
     ) {
         if (key.isNullOrBlank()) {
             result.error(
@@ -81,9 +84,16 @@ internal class NativeLink {
             if (collectionEnabled != null) {
                 config.collectionEnabled = collectionEnabled
             }
-            Instana.setup(
+
+            var hybridAgentOptions: HybridAgentOptions? = null
+            if (hybridAgentId != null && hybridAgentVersion != null) {
+                hybridAgentOptions = HybridAgentOptions(hybridAgentId, hybridAgentVersion)
+            }
+
+            Instana.setupInternal(
                 app,
-                config
+                config,
+                hybridAgentOptions
             )
             result.success(true)
         }
