@@ -26,7 +26,7 @@ class InstanaAgent {
       'slowSendInterval': options?.slowSendInterval,
       'usiRefreshTimeIntervalInHrs': options?.usiRefreshTimeIntervalInHrs,
       'hybridAgentId': 'f',
-      'hybridAgentVersion': '3.0.6'
+      'hybridAgentVersion': '3.0.7'
     });
   }
 
@@ -109,7 +109,8 @@ class InstanaAgent {
       'duration': options?.duration?.toDouble(),
       'viewName': options?.viewName,
       'meta': options?.meta,
-      'backendTracingID': options?.backendTracingID
+      'backendTracingID': options?.backendTracingID,
+      'customMetric': options?.customMetric
     });
   }
 
@@ -251,6 +252,9 @@ class EventOptions {
 
   /// Backend Trace ID to associate this Custom Event to
   String? backendTracingID;
+
+  /// Custom Metric
+  double? customMetric;
 }
 
 /// Helper class to make the manual extraction of the BackendTracingID easier

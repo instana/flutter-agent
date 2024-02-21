@@ -129,6 +129,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                 val viewName: String? = call.argument("viewName")
                 val meta: HashMap<String?, String?>? = call.argument("meta")
                 val backendTracingID: String? = call.argument("backendTracingID")
+                val customMetric: Double? = call.argument("customMetric")
                 nativeLink.reportEvent(
                     result = result,
                     eventName = eventName,
@@ -136,7 +137,8 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     duration = duration,
                     viewName = viewName,
                     meta = meta,
-                    backendTracingID = backendTracingID
+                    backendTracingID = backendTracingID,
+                    customMetric = customMetric
                 )
             }
             "startCapture" -> {

@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.7
+- CustomMetric field support in reportEvent method
+- Upgrade iOSAgent to 1.6.9, android-agent to 6.0.14
+
 ## 3.0.6
 - Pass flutter-agent id and version down to iOSAgent and android-agent
 - Upgrade iOSAgent to 1.6.8, android-agent to 6.0.12

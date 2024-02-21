@@ -100,6 +100,8 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         let captureNativeHttp = bool(for: .captureNativeHttp, at: call) ?? false
         let slowSendInterval = double(for: .slowSendInterval, at: call)
         let usiRefreshTimeIntervalInHrs = double(for: .usiRefreshTimeIntervalInHrs, at: call)
+        let hybridAgentId = string(for: .hybridAgentId, at: call) ?? nil
+        let hybridAgentVersion = string(for: .hybridAgentVersion, at: call) ?? nil
 
         var httpCaptureConfig: HTTPCaptureConfig
         if captureNativeHttp {
@@ -117,9 +119,13 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
             options.usiRefreshTimeIntervalInHrs = usiRefreshTimeIntervalInHrs!
         }
 
-        let hybridOptions = HybridAgentOptions(id: "f", version: "3.0.6")
-        let ret = Instana.setupInternal(key: key, reportingURL: url,
-                                options: options, hybridOptions: hybridOptions)
+        var hybridAgentOptions: HybridAgentOptions? = nil
+        if hybridAgentId != nil, hybridAgentVersion != nil {
+            hybridAgentOptions = HybridAgentOptions(id: hybridAgentId!,
+                                               version: hybridAgentVersion!)
+        }
+        let ret = Instana.setupInternal(key: key, reportingURL: url, options: options,
+                                        hybridOptions: hybridAgentOptions)
         result(ret)
     }
 
@@ -193,13 +199,15 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         let viewName = string(for: .viewName, at: call)
         let backendTracingID = string(for: .backendTracingID, at: call)
         let meta = stringDict(for: .meta, at: call)
+        let customMetric = double(for: .customMetric, at: call) ?? Double.nan
         Instana.reportEvent(name: eventName,
                             timestamp: startTime,
                             duration: duration,
                             backendTracingID: backendTracingID,
                             error: nil,
                             meta: meta,
-                            viewName: viewName)
+                            viewName: viewName,
+                            customMetric: customMetric)
         result("Reported event with name \(eventName)")
     }
 
@@ -361,6 +369,7 @@ extension SwiftInstanaAgentPlugin {
         case startTime
         case duration
         case backendTracingID
+        case customMetric
         case responseHeaders
         case meta
         case url

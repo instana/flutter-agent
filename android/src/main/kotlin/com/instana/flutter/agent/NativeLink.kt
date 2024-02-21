@@ -190,7 +190,8 @@ internal class NativeLink {
         duration: Double?,
         viewName: String?,
         meta: HashMap<String?, String?>?,
-        backendTracingID: String?
+        backendTracingID: String?,
+        customMetric: Double?
     ) {
         if (eventName.isNullOrBlank()) {
             result.error(
@@ -206,6 +207,7 @@ internal class NativeLink {
                 this.backendTracingID = backendTracingID
                 this.meta =
                     meta?.filter { it.key != null && it.value != null } as? HashMap<String, String>
+                this.customMetric = customMetric
             }
             Instana.reportEvent(event)
             result.success(null)

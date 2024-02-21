@@ -88,6 +88,9 @@ class _MyAppState extends State<MyApp> {
     InstanaAgent.setMeta(key: 'exampleGlobalKey', value: 'exampleGlobalValue');
 
     await InstanaAgent.reportEvent(name: 'simpleCustomEvent');
+    await InstanaAgent.reportEvent(name: 'customEventWithMetric',
+        options: EventOptions()
+          ..customMetric = 12345.678);
     await InstanaAgent.reportEvent(
         name: 'complexCustomEvent',
         options: EventOptions()
@@ -124,7 +127,7 @@ class _MyAppState extends State<MyApp> {
     Random random = new Random();
     var id = random.nextInt(100);
     var uid = random.nextInt(1000);
-    var url = 'https://jsonplaceholder.typicode.com/albums/${id}?uid=${uid}';
+    var url = 'https://jsonplaceholder.typicode.com/albums/$id?uid=$uid';
     final http.Request request = http.Request("GET", Uri.parse(url));
 
     final response = await httpClient.send(request);
