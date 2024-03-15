@@ -1,4 +1,6 @@
 {
-  "settingsInheritedFrom": "whitesource-config/whitesource-config@master",
-  "excludes": "/example, /test/"
+	"settingsInheritedFrom": "whitesource-config/whitesource-config@master",
+  	"scanSettings": {
+		"configMode": "LOCAL"
+	}
 }
