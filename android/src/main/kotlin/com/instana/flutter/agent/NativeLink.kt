@@ -80,7 +80,7 @@ internal class NativeLink {
                 httpCaptureConfig = httpCaptureConfig,
                 slowSendIntervalMillis = slowSendIntervalMillis,
                 usiRefreshTimeIntervalInHrs = usiRefreshTimeIntervalInHrsLong
-                )
+            )
             if (collectionEnabled != null) {
                 config.collectionEnabled = collectionEnabled
             }
@@ -183,6 +183,7 @@ internal class NativeLink {
             result.success(null)
         }
     }
+
     fun reportEvent(
         result: MethodChannel.Result,
         eventName: String?,
@@ -287,5 +288,34 @@ internal class NativeLink {
             markerInstanceMap[markerId]?.cancel()
             result.success(null)
         }
+    }
+
+    fun setInternalMeta(result: MethodChannel.Result, key: String?, value: String?) {
+        if (key.isNullOrBlank()) {
+            result.error(
+                ErrorCode.MISSING_OR_INVALID_ARGUMENT.serialized,
+                "Instana requires non-blank 'internal meta keys'",
+                null
+            )
+        } else if (value == null) {
+            result.error(
+                ErrorCode.MISSING_OR_INVALID_ARGUMENT.serialized,
+                "Instana requires non-null 'internal meta values'",
+                null
+            )
+        } else {
+            val putSuccess = Instana.viewMeta.put(key, value)
+            if (putSuccess) result.success(null)
+            else result.error(
+                ErrorCode.META_LIST_FULL.serialized,
+                "Instana failed to add new meta value",
+                null
+            )
+        }
+    }
+
+    fun clearInternalMeta(result: MethodChannel.Result) {
+        Instana.viewMeta.clear()
+        result.success(null)
     }
 }

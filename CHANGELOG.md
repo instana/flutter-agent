@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.8
+- Added screen name auto capture methods
+
 ## 3.0.7
 - CustomMetric field support in reportEvent method
 - Upgrade iOSAgent to 1.6.9, android-agent to 6.0.14

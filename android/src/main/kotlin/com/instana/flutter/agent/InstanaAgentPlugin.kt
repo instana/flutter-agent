@@ -40,7 +40,8 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                 val collectionEnabled: Boolean? = call.argument("collectionEnabled")
                 val captureNativeHttp: Boolean? = call.argument("captureNativeHttp")
                 val slowSendIntervalSeconds: Double? = call.argument("slowSendInterval")
-                val usiRefreshTimeIntervalInHrs: Double? = call.argument("usiRefreshTimeIntervalInHrs")
+                val usiRefreshTimeIntervalInHrs: Double? =
+                    call.argument("usiRefreshTimeIntervalInHrs")
                 val hybridAgentId: String? = call.argument("hybridAgentId")
                 val hybridAgentVersion: String? = call.argument("hybridAgentVersion")
                 return nativeLink.setUpInstana(
@@ -56,6 +57,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     hybridAgentVersion = hybridAgentVersion
                 )
             }
+
             "setCollectionEnabled" -> {
                 val collectionEnabled: Boolean? = call.argument("collectionEnabled")
                 if (collectionEnabled != null) {
@@ -65,6 +67,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     )
                 }
             }
+
             "setUserID" -> {
                 val userID: String? = call.argument("userID")
                 nativeLink.setUserId(
@@ -72,6 +75,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     userID = userID
                 )
             }
+
             "setUserName" -> {
                 val userName: String? = call.argument("userName")
                 nativeLink.setUserName(
@@ -79,6 +83,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     userName = userName
                 )
             }
+
             "setUserEmail" -> {
                 val userEmail: String? = call.argument("userEmail")
                 nativeLink.setUserEmail(
@@ -86,6 +91,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     userEmail = userEmail
                 )
             }
+
             "setView" -> {
                 val viewName: String? = call.argument("viewName")
                 nativeLink.setView(
@@ -93,12 +99,15 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     viewName = viewName
                 )
             }
+
             "getView" -> {
                 result.success(nativeLink.getView())
             }
+
             "getSessionID" -> {
                 result.success(nativeLink.getSessionID())
             }
+
             "setMeta" -> {
                 val key: String? = call.argument("key")
                 val value: String? = call.argument("value")
@@ -108,6 +117,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     value = value
                 )
             }
+
             "setCaptureHeaders" -> {
                 val list: List<String?>? = call.argument("regex")
                 nativeLink.setCaptureHeaders(
@@ -115,6 +125,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     regex = list
                 )
             }
+
             "redactHTTPQuery" -> {
                 val list: List<String?>? = call.argument("redactHTTPQueryRegEx")
                 nativeLink.redactHTTPQuery(
@@ -122,6 +133,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     regex = list
                 )
             }
+
             "reportEvent" -> {
                 val eventName: String? = call.argument("eventName")
                 val startTime: Double? = call.argument("startTime")
@@ -141,6 +153,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     customMetric = customMetric
                 )
             }
+
             "startCapture" -> {
                 val url: String? = call.argument("url")
                 val method: String? = call.argument("method")
@@ -152,6 +165,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     viewName = viewName
                 )
             }
+
             "finish" -> {
                 val markerId: String? = call.argument("id")
                 val responseStatusCode: Int? = call.argument("responseStatusCode")
@@ -161,7 +175,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     (call.argument("responseSizeBodyDecoded") as? Int)?.toLong()
                 val backendTraceId: String? = call.argument("backendTracingID")
                 val errorMessage: String? = call.argument("errorMessage")
-                val responseHeaders: HashMap<String?,String?>? = call.argument("responseHeaders")
+                val responseHeaders: HashMap<String?, String?>? = call.argument("responseHeaders")
                 nativeLink.finishCapture(
                     result = result,
                     markerId = markerId,
@@ -173,6 +187,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     responseHeaders = responseHeaders
                 )
             }
+
             "cancel" -> {
                 val markerId: String? = call.argument("id")
                 nativeLink.cancelCapture(
@@ -180,6 +195,21 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     markerId = markerId
                 )
             }
+
+            "setInternalMeta" -> {
+                val key: String? = call.argument("key")
+                val value: String? = call.argument("value")
+                nativeLink.setInternalMeta(
+                    result = result,
+                    key = key,
+                    value = value
+                )
+            }
+
+            "clearInternalMeta" -> {
+                nativeLink.clearInternalMeta(result = result)
+            }
+
             else -> {
                 result.notImplemented()
             }

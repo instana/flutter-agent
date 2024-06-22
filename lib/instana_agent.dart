@@ -26,7 +26,7 @@ class InstanaAgent {
       'slowSendInterval': options?.slowSendInterval,
       'usiRefreshTimeIntervalInHrs': options?.usiRefreshTimeIntervalInHrs,
       'hybridAgentId': 'f',
-      'hybridAgentVersion': '3.0.7'
+      'hybridAgentVersion': '3.0.8'
     });
   }
 
@@ -224,6 +224,7 @@ class SetupOptions {
   /// A positive number means user session id is refreshed (a new one is created) after that many hours.
   /// 0.0 means user session id is disabled.
   double usiRefreshTimeIntervalInHrs = -1.0;
+
 }
 
 /// This class contains all the options you can provide for the Custom Events reported through [InstanaAgent.reportEvent()]

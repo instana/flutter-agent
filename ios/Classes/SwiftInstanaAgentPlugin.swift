@@ -43,7 +43,7 @@ enum SwiftInstanaAgentPluginError: LocalizedError {
 
 public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
     var markerIDMapper = [String: HTTPMarker]()
-
+    var internalViewMeta: [String: String] = [:];
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "instana_agent", binaryMessenger: registrar.messenger())
         let instance = SwiftInstanaAgentPlugin()
@@ -84,6 +84,10 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
             setCaptureHeaders(call, result)
         } else if call.method == "redactHTTPQuery" {
             redactHTTPQuery(call, result)
+        } else if call.method == "setInternalMeta" {
+            setInternalViewMeta(call, result)
+        } else if call.method == "clearInternalMeta" {
+            internalViewMeta.removeAll()
         } else {
             result(FlutterMethodNotImplemented)
         }
@@ -173,7 +177,11 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
                             .missingOrInvalidArgs([Arg.viewName.string])
                             .flutterError)
         }
-        Instana.setView(name: name)
+        if(internalViewMeta.isEmpty){
+            Instana.setView(name: name)
+        }else{
+            Instana.setViewMetaCPInternal(name:name,viewInternalCPMetaMap:internalViewMeta)
+        }
         result("View \(name) set")
     }
 
@@ -185,6 +193,17 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
                             .flutterError)
         }
         Instana.setMeta(value: value, key: key)
+        result("Meta \(key):\(value) set")
+    }
+
+    func setInternalViewMeta(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+        guard let key = string(for: .key, at: call),
+              let value = string(for: .value, at: call) else {
+            return result(SwiftInstanaAgentPluginError
+                            .missingOrInvalidArgs([Arg.key.string, Arg.value.string])
+                            .flutterError)
+        }
+        internalViewMeta[key] = value
         result("Meta \(key):\(value) set")
     }
 
