@@ -32,7 +32,6 @@ run:
       gh auth login --with-token <<< ((ibm-github-e-api-token)) --hostname github.ibm.com
       export PR_KEY=`gh pr view --json baseRefName,number --jq .number`
       export PR_BASE=`gh pr view --json baseRefName,number --jq .baseRefName`
-      git fetch https://$GITHUB_TOKEN@github.ibm.com/instana/flutter-agent.git main:main
       cd ..
       echo "Performing sonarqube scan"
       source eum-shared-source/flutter-agent/ci/scan.sh
