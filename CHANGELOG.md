@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.9
+- Upgrade iOSAgent to 1.8.2, HTTPCaptureResult tracks http status code along with error message
+- Upgrade android-agent to 6.0.18
+
 ## 3.0.8
 - Added screen name auto capture methods
 

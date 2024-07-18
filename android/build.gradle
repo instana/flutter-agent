@@ -2,7 +2,7 @@ group 'com.instana.flutter.agent'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.native_instana_version = '6.0.17'
+    ext.native_instana_version = '6.0.18'
     ext.kotlin_version = '1.5.30'
     ext.agp_version = '3.5.0'
 
