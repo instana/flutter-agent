@@ -3,11 +3,11 @@
 // package as the core of your plugin.
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:convert';
+import 'dart:js_interop';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:instana_agent/web/instana_agent_js.dart';
-import 'package:js/js_util.dart';
 
 /// A web implementation of the InstanaAgent plugin.
 ///
@@ -48,14 +48,14 @@ class InstanaAgentPlugin {
         return ineum(
           'reportEvent',
           args['eventName'],
-          jsify({
+          {
             'timestamp': args['startTime'],
             'duration': args['duration'],
             'backendTraceId': args['backendTracingID'],
             'error': null,
             'componentStack': null,
             'meta': args['meta'],
-          }),
+          }.jsify(),
         );
       default:
         throw PlatformException(

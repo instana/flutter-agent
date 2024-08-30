@@ -14,7 +14,6 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   go_router: ^6.2.0
-  js: ^0.6.3
 
 dev_dependencies:
   mockito: ^5.0.0
