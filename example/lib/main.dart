@@ -121,7 +121,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<Album> fetchAlbum() async {
-    final httpClient = kIsWeb ? http.Client() :  InstrumentedHttpClient(http.Client());
+    final httpClient = kIsWeb ? http.Client() : InstrumentedHttpClient(http.Client());
 
     Random random = new Random();
     var id = random.nextInt(100);
