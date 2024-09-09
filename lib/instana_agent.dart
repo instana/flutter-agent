@@ -26,7 +26,7 @@ class InstanaAgent {
       'slowSendInterval': options?.slowSendInterval,
       'usiRefreshTimeIntervalInHrs': options?.usiRefreshTimeIntervalInHrs,
       'hybridAgentId': 'f',
-      'hybridAgentVersion': '3.0.9'
+      'hybridAgentVersion': '3.1.0'
     });
   }
 

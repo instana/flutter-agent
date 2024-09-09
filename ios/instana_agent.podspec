@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'instana_agent'
-  s.version          = '1.0.0'
+  s.version          = '2.0.0'
   s.summary          = 'Instana Agent for Flutter'
   s.description      = <<-DESC
 Instana Agent for Flutter
@@ -15,10 +15,10 @@ Instana Agent for Flutter
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.platform = :ios, '11.0'
+  s.platform = :ios, '12.0'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
-  s.swift_version = '5.3'
-  s.dependency 'InstanaAgent', '1.8.2'
+  s.swift_version = '5.4'
+  s.dependency 'InstanaAgent', '1.8.3'
 end

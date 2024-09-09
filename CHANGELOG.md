@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.0
+- Upgrade iOSAgent to 1.8.3, minimum supported iOS version increased from 11 to 12
+- Upgrade android-agent to 6.0.19, Error Type added to crash beacons
+
 ## 3.0.9
 - Upgrade iOSAgent to 1.8.2, HTTPCaptureResult tracks http status code along with error message
 - Upgrade android-agent to 6.0.18
