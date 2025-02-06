@@ -3,8 +3,8 @@ PODS:
   - GzipSwift (5.1.1)
   - instana_agent (2.0.0):
     - Flutter
-    - InstanaAgent (= 1.8.3)
-  - InstanaAgent (1.8.3):
+    - InstanaAgent (= 1.8.7)
+  - InstanaAgent (1.8.7):
     - GzipSwift
 
 DEPENDENCIES:
@@ -25,8 +25,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   GzipSwift: 893f3e48e597a1a4f62fafcb6514220fcf8287fa
-  instana_agent: fff76fd2f2c61226eef34ac450330a7b65136ca0
-  InstanaAgent: 5c85b1aafd9afd39ee0c470d96d9f8195e57dbd5
+  instana_agent: 388d5f2714a54c49571017c5791d48fad40d3915
+  InstanaAgent: e8e45238dbcd7719d72cdaa4d9b22966b5285020
 
 PODFILE CHECKSUM: c4c93c5f6502fe2754f48404d3594bf779584011
 

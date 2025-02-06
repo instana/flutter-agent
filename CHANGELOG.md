@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.1
+- Upgrade iOSAgent to 1.8.7, queryTrackedDomainList support and memory leak fix
+- Upgrade android-agent to 6.1.0, queryTrackedDomainList support,
+-         android-agent update error handling for root-level casting issues,
+-         android-agent fix issue with inaccurate start time in HTTP requests
+
 ## 3.1.0
 - Upgrade iOSAgent to 1.8.3, minimum supported iOS version increased from 11 to 12
 - Upgrade android-agent to 6.0.19, Error Type added to crash beacons

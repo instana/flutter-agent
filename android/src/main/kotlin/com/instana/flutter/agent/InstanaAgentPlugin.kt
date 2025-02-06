@@ -13,6 +13,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import java.util.regex.Pattern
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -42,8 +43,12 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                 val slowSendIntervalSeconds: Double? = call.argument("slowSendInterval")
                 val usiRefreshTimeIntervalInHrs: Double? =
                     call.argument("usiRefreshTimeIntervalInHrs")
+                val queryTrackedDomainListArr: List<String>? = call.argument("queryTrackedDomainList")
                 val hybridAgentId: String? = call.argument("hybridAgentId")
                 val hybridAgentVersion: String? = call.argument("hybridAgentVersion")
+
+                // Convert to Immutable List of Pattern
+                val queryTrackedDomainList: List<Pattern>? = queryTrackedDomainListArr?.map { it.toRegex().toPattern() }
                 return nativeLink.setUpInstana(
                     result = result,
                     app = app,
@@ -53,6 +58,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     captureNativeHttp = captureNativeHttp,
                     slowSendInterval = slowSendIntervalSeconds,
                     usiRefreshTimeIntervalInHrs = usiRefreshTimeIntervalInHrs,
+                    queryTrackedDomainList = queryTrackedDomainList,
                     hybridAgentId = hybridAgentId,
                     hybridAgentVersion = hybridAgentVersion
                 )

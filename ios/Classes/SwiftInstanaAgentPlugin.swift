@@ -104,6 +104,7 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         let captureNativeHttp = bool(for: .captureNativeHttp, at: call) ?? false
         let slowSendInterval = double(for: .slowSendInterval, at: call)
         let usiRefreshTimeIntervalInHrs = double(for: .usiRefreshTimeIntervalInHrs, at: call)
+        let queryTrackedDomainListArr = stringArray(for: .queryTrackedDomainList, at: call)
         let hybridAgentId = string(for: .hybridAgentId, at: call) ?? nil
         let hybridAgentVersion = string(for: .hybridAgentVersion, at: call) ?? nil
 
@@ -121,6 +122,20 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         }
         if usiRefreshTimeIntervalInHrs != nil {
             options.usiRefreshTimeIntervalInHrs = usiRefreshTimeIntervalInHrs!
+        }
+        if queryTrackedDomainListArr != nil {
+             var regExpDomains: [NSRegularExpression] = []
+             for pattern in queryTrackedDomainListArr! {
+                 do {
+                     let oneDomain = try NSRegularExpression(pattern: pattern, options: [])
+                     regExpDomains.append(oneDomain)
+                 } catch {
+                     return result(SwiftInstanaAgentPluginError
+                         .missingOrInvalidArgs([Arg.queryTrackedDomainList.string])
+                         .flutterError)
+                 }
+             }
+             options.queryTrackedDomainList = regExpDomains
         }
 
         var hybridAgentOptions: HybridAgentOptions? = nil
@@ -375,6 +390,7 @@ extension SwiftInstanaAgentPlugin {
         case captureNativeHttp
         case slowSendInterval
         case usiRefreshTimeIntervalInHrs
+        case queryTrackedDomainList
         case hybridAgentId
         case hybridAgentVersion
         case setCaptureHeaders

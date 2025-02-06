@@ -25,8 +25,9 @@ class InstanaAgent {
       'captureNativeHttp': options?.captureNativeHttp,
       'slowSendInterval': options?.slowSendInterval,
       'usiRefreshTimeIntervalInHrs': options?.usiRefreshTimeIntervalInHrs,
+      'queryTrackedDomainList': options?.queryTrackedDomainList,
       'hybridAgentId': 'f',
-      'hybridAgentVersion': '3.1.0'
+      'hybridAgentVersion': '3.1.1'
     });
   }
 
@@ -225,6 +226,14 @@ class SetupOptions {
   /// 0.0 means user session id is disabled.
   double usiRefreshTimeIntervalInHrs = -1.0;
 
+  ///
+  /// List of url domains which needs to be tracked with the query params.
+  /// If any domain is provided all other URLs will be captured without query params.
+  ///
+  /// Default: No url domains are listed. All url parameters are tracked.
+  ///
+  /// Each string is treated as a regular expression.
+  List<String> queryTrackedDomainList = [];
 }
 
 /// This class contains all the options you can provide for the Custom Events reported through [InstanaAgent.reportEvent()]

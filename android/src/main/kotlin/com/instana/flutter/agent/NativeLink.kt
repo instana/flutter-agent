@@ -14,6 +14,7 @@ import com.instana.android.instrumentation.HTTPCaptureConfig
 import com.instana.android.instrumentation.HTTPMarker
 import com.instana.android.instrumentation.HTTPMarkerData
 import io.flutter.plugin.common.MethodChannel
+import java.util.regex.Pattern
 import java.util.*
 
 internal class NativeLink {
@@ -30,6 +31,7 @@ internal class NativeLink {
         captureNativeHttp: Boolean?,
         slowSendInterval: Double?,
         usiRefreshTimeIntervalInHrs: Double?,
+        queryTrackedDomainList: List<Pattern>?,
         hybridAgentId: String?,
         hybridAgentVersion: String?
     ) {
@@ -95,6 +97,9 @@ internal class NativeLink {
                 config,
                 hybridAgentOptions
             )
+            if (queryTrackedDomainList != null) {
+                Instana.queryTrackedDomainList.addAll(queryTrackedDomainList);
+            }
             result.success(true)
         }
     }
