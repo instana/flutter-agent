@@ -10,9 +10,11 @@ import com.instana.android.CustomEvent
 import com.instana.android.Instana
 import com.instana.android.core.HybridAgentOptions
 import com.instana.android.core.InstanaConfig
+import com.instana.android.dropbeaconhandler.RateLimits
 import com.instana.android.instrumentation.HTTPCaptureConfig
 import com.instana.android.instrumentation.HTTPMarker
 import com.instana.android.instrumentation.HTTPMarkerData
+import com.instana.android.performance.PerformanceMonitorConfig
 import io.flutter.plugin.common.MethodChannel
 import java.util.regex.Pattern
 import java.util.*
@@ -32,6 +34,8 @@ internal class NativeLink {
         slowSendInterval: Double?,
         usiRefreshTimeIntervalInHrs: Double?,
         queryTrackedDomainList: List<Pattern>?,
+        dropBeaconReporting: Boolean?,
+        rateLimits: Int?,
         hybridAgentId: String?,
         hybridAgentVersion: String?
     ) {
@@ -81,10 +85,26 @@ internal class NativeLink {
                 key = key,
                 httpCaptureConfig = httpCaptureConfig,
                 slowSendIntervalMillis = slowSendIntervalMillis,
-                usiRefreshTimeIntervalInHrs = usiRefreshTimeIntervalInHrsLong
+                usiRefreshTimeIntervalInHrs = usiRefreshTimeIntervalInHrsLong,
+                performanceMonitorConfig = PerformanceMonitorConfig(
+                    enableAppStartTimeReport = false,
+                    enableAnrReport = false,
+                    enableLowMemoryReport = false)
             )
             if (collectionEnabled != null) {
                 config.collectionEnabled = collectionEnabled
+            }
+            if (dropBeaconReporting != null) {
+                config.dropBeaconReporting = dropBeaconReporting
+            }
+            config.dropBeaconReporting = false  // turn off the feature until server ready!!!
+            if (rateLimits != null) {
+                val rateLimitsConverted: RateLimits = when (rateLimits) {
+                    1 -> RateLimits.MID_LIMITS
+                    2 -> RateLimits.MAX_LIMITS
+                    else -> RateLimits.DEFAULT_LIMITS
+                }
+                config.rateLimits = rateLimitsConverted
             }
 
             var hybridAgentOptions: HybridAgentOptions? = null

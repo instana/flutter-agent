@@ -42,8 +42,10 @@ class _MyAppState extends State<MyApp> {
     options.collectionEnabled = false;
     // options.slowSendInterval = 60.0; // enable slow send mode on beacon send failure, send interval is 60 seconds
     // options.usiRefreshTimeIntervalInHrs = 24.0; // refresh user session id every 24 hours
+
     // Each string in queryTrackedDomainList is treated as a regular expression.
     // options.queryTrackedDomainList = ['https://jsonplaceholder\\.typicode\\.com', 'https://www\\.ibm\\.com*'];
+    // options.rateLimits = RateLimits.MID_LIMITS;
     bool ret = await InstanaAgent.setup(key: 'key', reportingUrl: 'URL', options: options);
     if (!ret) {
       // Error handling here

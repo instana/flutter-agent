@@ -105,6 +105,8 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         let slowSendInterval = double(for: .slowSendInterval, at: call)
         let usiRefreshTimeIntervalInHrs = double(for: .usiRefreshTimeIntervalInHrs, at: call)
         let queryTrackedDomainListArr = stringArray(for: .queryTrackedDomainList, at: call)
+        let dropBeaconReporting = bool(for: .dropBeaconReporting, at: call)
+        let rateLimits = int(for: .rateLimits, at: call)
         let hybridAgentId = string(for: .hybridAgentId, at: call) ?? nil
         let hybridAgentVersion = string(for: .hybridAgentVersion, at: call) ?? nil
 
@@ -137,6 +139,16 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
              }
              options.queryTrackedDomainList = regExpDomains
         }
+        if dropBeaconReporting != nil {
+            options.dropBeaconReporting = dropBeaconReporting!
+        }
+        options.dropBeaconReporting = false  // turn off the feature until server ready!!!
+        if rateLimits != nil {
+            options.rateLimits = RateLimits(rawValue: rateLimits ?? -1) ?? .DEFAULT_LIMITS
+        }
+        options.perfConfig = InstanaPerformanceConfig(enableAppStartTimeReport: false,
+                                                      enableAnrReport: false,
+                                                      enableLowMemoryReport: false)
 
         var hybridAgentOptions: HybridAgentOptions? = nil
         if hybridAgentId != nil, hybridAgentVersion != nil {
@@ -391,6 +403,8 @@ extension SwiftInstanaAgentPlugin {
         case slowSendInterval
         case usiRefreshTimeIntervalInHrs
         case queryTrackedDomainList
+        case dropBeaconReporting
+        case rateLimits
         case hybridAgentId
         case hybridAgentVersion
         case setCaptureHeaders

@@ -44,6 +44,8 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                 val usiRefreshTimeIntervalInHrs: Double? =
                     call.argument("usiRefreshTimeIntervalInHrs")
                 val queryTrackedDomainListArr: List<String>? = call.argument("queryTrackedDomainList")
+                val dropBeaconReporting: Boolean? = call.argument("dropBeaconReporting")
+                val rateLimits: Int? = call.argument("rateLimits")
                 val hybridAgentId: String? = call.argument("hybridAgentId")
                 val hybridAgentVersion: String? = call.argument("hybridAgentVersion")
 
@@ -59,6 +61,8 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     slowSendInterval = slowSendIntervalSeconds,
                     usiRefreshTimeIntervalInHrs = usiRefreshTimeIntervalInHrs,
                     queryTrackedDomainList = queryTrackedDomainList,
+                    dropBeaconReporting = dropBeaconReporting,
+                    rateLimits = rateLimits,
                     hybridAgentId = hybridAgentId,
                     hybridAgentVersion = hybridAgentVersion
                 )

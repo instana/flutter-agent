@@ -18,7 +18,7 @@ class InstanaAgent {
       {required String key,
       required String reportingUrl,
       SetupOptions? options}) async {
-    return await _channel.invokeMethod('setup', <String, dynamic>{
+    Map<String, dynamic> params = {
       'key': key,
       'reportingUrl': reportingUrl,
       'collectionEnabled': options?.collectionEnabled,
@@ -26,9 +26,15 @@ class InstanaAgent {
       'slowSendInterval': options?.slowSendInterval,
       'usiRefreshTimeIntervalInHrs': options?.usiRefreshTimeIntervalInHrs,
       'queryTrackedDomainList': options?.queryTrackedDomainList,
+      'dropBeaconReporting': options?.dropBeaconReporting,
       'hybridAgentId': 'f',
       'hybridAgentVersion': '3.1.1'
-    });
+    };
+    if (options?.rateLimits != null) {
+      // convert enum to integer for cross language boundary value passing
+      params['rateLimits'] = options!.rateLimits!.index;
+    }
+    return await _channel.invokeMethod('setup', params);
   }
 
   /// Enable or disable collection (opt-in or opt-out)
@@ -205,6 +211,27 @@ class Marker {
   }
 }
 
+/**
+ * Rate-Limiter configuration for the maximum number of beacons allowed within specific time intervals:
+ *
+ * - `DEFAULT_LIMITS`:
+ *     - 500 beacons per 5 minutes
+ *     - 20 beacons per 10 seconds
+ *
+ * - `MID_LIMITS`:
+ *     - 1000 beacons per 5 minutes
+ *     - 40 beacons per 10 seconds
+ *
+ * - `MAX_LIMITS`:
+ *     - 2500 beacons per 5 minutes
+ *     - 100 beacons per 10 seconds
+ */
+enum RateLimits {
+  DEFAULT_LIMITS,
+  MID_LIMITS,
+  MAX_LIMITS
+}
+
 class SetupOptions {
   ///  Enable or disable collection (instrumentation) on setup. Can be changed later via the property `collectionEnabled` (Default: true)
   bool collectionEnabled = true;
@@ -234,6 +261,14 @@ class SetupOptions {
   ///
   /// Each string is treated as a regular expression.
   List<String> queryTrackedDomainList = [];
+
+  /// collect and report dropped beacons (on behalf of rate limit) to Instana backend
+  /// optional otherwise takes platform agent's configuration
+  bool? dropBeaconReporting;
+
+  /// configure rate limit of beacons sent to Instana backend
+  /// optional otherwise takes platform agent's configuration
+  RateLimits? rateLimits;
 }
 
 /// This class contains all the options you can provide for the Custom Events reported through [InstanaAgent.reportEvent()]
