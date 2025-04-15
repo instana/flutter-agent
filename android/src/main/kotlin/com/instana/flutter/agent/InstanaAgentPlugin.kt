@@ -46,6 +46,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                 val queryTrackedDomainListArr: List<String>? = call.argument("queryTrackedDomainList")
                 val dropBeaconReporting: Boolean? = call.argument("dropBeaconReporting")
                 val rateLimits: Int? = call.argument("rateLimits")
+                val enableW3CHeaders: Boolean? = call.argument("enableW3CHeaders")
                 val hybridAgentId: String? = call.argument("hybridAgentId")
                 val hybridAgentVersion: String? = call.argument("hybridAgentVersion")
 
@@ -63,6 +64,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     queryTrackedDomainList = queryTrackedDomainList,
                     dropBeaconReporting = dropBeaconReporting,
                     rateLimits = rateLimits,
+                    enableW3CHeaders = enableW3CHeaders,
                     hybridAgentId = hybridAgentId,
                     hybridAgentVersion = hybridAgentVersion
                 )

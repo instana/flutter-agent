@@ -36,6 +36,7 @@ internal class NativeLink {
         queryTrackedDomainList: List<Pattern>?,
         dropBeaconReporting: Boolean?,
         rateLimits: Int?,
+        enableW3CHeaders: Boolean?,
         hybridAgentId: String?,
         hybridAgentVersion: String?
     ) {
@@ -97,7 +98,6 @@ internal class NativeLink {
             if (dropBeaconReporting != null) {
                 config.dropBeaconReporting = dropBeaconReporting
             }
-            config.dropBeaconReporting = false  // turn off the feature until server ready!!!
             if (rateLimits != null) {
                 val rateLimitsConverted: RateLimits = when (rateLimits) {
                     1 -> RateLimits.MID_LIMITS
@@ -105,6 +105,9 @@ internal class NativeLink {
                     else -> RateLimits.DEFAULT_LIMITS
                 }
                 config.rateLimits = rateLimitsConverted
+            }
+            if (enableW3CHeaders != null) {
+                config.enableW3CHeaders = enableW3CHeaders
             }
 
             var hybridAgentOptions: HybridAgentOptions? = null

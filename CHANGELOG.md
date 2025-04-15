@@ -1,10 +1,11 @@
 # Changelog
 
 ## 3.1.1
+- Support W3C trace context headers configuration
 - Support rate limits configuration
 - Support queryTrackedDomainList
-- Upgrade iOSAgent to 1.8.9, memory leak fix
-- Upgrade android-agent to 6.1.1, error handling for root-level casting issues
+- Upgrade iOSAgent to 1.9.1, memory leak fix
+- Upgrade android-agent to 6.2.1, error handling for root-level casting issues
 - Fixed issue with inaccurate start time in HTTP requests for android-agent
 
 ## 3.1.0

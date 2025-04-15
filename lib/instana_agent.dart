@@ -27,6 +27,7 @@ class InstanaAgent {
       'usiRefreshTimeIntervalInHrs': options?.usiRefreshTimeIntervalInHrs,
       'queryTrackedDomainList': options?.queryTrackedDomainList,
       'dropBeaconReporting': options?.dropBeaconReporting,
+      'enableW3CHeaders': options?.enableW3CHeaders,
       'hybridAgentId': 'f',
       'hybridAgentVersion': '3.1.1'
     };
@@ -269,6 +270,10 @@ class SetupOptions {
   /// configure rate limit of beacons sent to Instana backend
   /// optional otherwise takes platform agent's configuration
   RateLimits? rateLimits;
+
+  /// When set to true, this option includes W3C-compliant headers in HTTP request headers,
+  /// ensuring compatibility with W3C standards for tracing.
+  bool? enableW3CHeaders;
 }
 
 /// This class contains all the options you can provide for the Custom Events reported through [InstanaAgent.reportEvent()]

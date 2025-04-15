@@ -107,6 +107,7 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         let queryTrackedDomainListArr = stringArray(for: .queryTrackedDomainList, at: call)
         let dropBeaconReporting = bool(for: .dropBeaconReporting, at: call)
         let rateLimits = int(for: .rateLimits, at: call)
+        let enableW3CHeaders = bool(for: .enableW3CHeaders, at: call)
         let hybridAgentId = string(for: .hybridAgentId, at: call) ?? nil
         let hybridAgentVersion = string(for: .hybridAgentVersion, at: call) ?? nil
 
@@ -142,9 +143,11 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         if dropBeaconReporting != nil {
             options.dropBeaconReporting = dropBeaconReporting!
         }
-        options.dropBeaconReporting = false  // turn off the feature until server ready!!!
         if rateLimits != nil {
             options.rateLimits = RateLimits(rawValue: rateLimits ?? -1) ?? .DEFAULT_LIMITS
+        }
+        if enableW3CHeaders != nil {
+            options.enableW3CHeaders = enableW3CHeaders!
         }
         options.perfConfig = InstanaPerformanceConfig(enableAppStartTimeReport: false,
                                                       enableAnrReport: false,
@@ -405,6 +408,7 @@ extension SwiftInstanaAgentPlugin {
         case queryTrackedDomainList
         case dropBeaconReporting
         case rateLimits
+        case enableW3CHeaders
         case hybridAgentId
         case hybridAgentVersion
         case setCaptureHeaders
