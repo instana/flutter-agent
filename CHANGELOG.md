@@ -1,6 +1,7 @@
 # Changelog
 
 ## 3.1.1
+- Added namespace support for gradle 8.0+
 - Support W3C trace context headers configuration
 - Support rate limits configuration
 - Support queryTrackedDomainList
