@@ -29,7 +29,7 @@ class InstanaAgent {
       'dropBeaconReporting': options?.dropBeaconReporting,
       'enableW3CHeaders': options?.enableW3CHeaders,
       'hybridAgentId': 'f',
-      'hybridAgentVersion': '3.1.1'
+      'hybridAgentVersion': '3.1.2'
     };
     if (options?.rateLimits != null) {
       // convert enum to integer for cross language boundary value passing

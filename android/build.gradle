@@ -44,12 +44,6 @@ android {
         disable 'InvalidPackage'
     }
 
-    kotlin {
-        jvmToolchain {
-            languageVersion.set(JavaLanguageVersion.of(8))
-        }
-    }
-
     dependencies {
         implementation "com.instana:android-agent-runtime:$native_instana_version"
     }

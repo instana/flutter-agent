@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.2
+- Removed jvmToolchain dependency of Java language 8
+
 ## 3.1.1
 - Added namespace support for gradle 8.0+
 - Support W3C trace context headers configuration
