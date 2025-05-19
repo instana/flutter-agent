@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.3
+- update base version of kotlin and java set for backward compatibility
+
 ## 3.1.2
 - Removed jvmToolchain dependency of Java language 8
 
