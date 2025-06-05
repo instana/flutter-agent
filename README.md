@@ -190,6 +190,6 @@ If you enable http auto capture, stop using above sample code like InstanaAgent.
 
 ## More
 
-The complete documentation for this package, including `custom events` and others can be found within [Instana's public documentation page](https://www.instana.com/docs/mobile_app_monitoring/flutter_api) 
+The complete documentation for this package, including `custom events` and others can be found within [Instana's public documentation page](https://www.ibm.com/docs/en/instana-observability/current?topic=applications-flutter-monitoring-api)
 
 Please also check out the [Flutter example](https://github.com/instana/flutter-agent/tree/main/example) in this repository for a simple usage demonstration.
