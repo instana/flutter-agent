@@ -38,7 +38,8 @@ internal class NativeLink {
         rateLimits: Int?,
         enableW3CHeaders: Boolean?,
         hybridAgentId: String?,
-        hybridAgentVersion: String?
+        hybridAgentVersion: String?,
+        trustDeviceTiming: Boolean = false
     ) {
         if (key.isNullOrBlank()) {
             result.error(
@@ -90,7 +91,8 @@ internal class NativeLink {
                 performanceMonitorConfig = PerformanceMonitorConfig(
                     enableAppStartTimeReport = false,
                     enableAnrReport = false,
-                    enableLowMemoryReport = false)
+                    enableLowMemoryReport = false),
+                trustDeviceTiming = trustDeviceTiming
             )
             if (collectionEnabled != null) {
                 config.collectionEnabled = collectionEnabled

@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.4
+- Added `trustDeviceTiming` configuration option for backend to trust the device timing
+
 ## 3.1.3
 - update base version of kotlin and java set for backward compatibility
 

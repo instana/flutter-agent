@@ -28,8 +28,9 @@ class InstanaAgent {
       'queryTrackedDomainList': options?.queryTrackedDomainList,
       'dropBeaconReporting': options?.dropBeaconReporting,
       'enableW3CHeaders': options?.enableW3CHeaders,
+      'trustDeviceTiming': options?.trustDeviceTiming,
       'hybridAgentId': 'f',
-      'hybridAgentVersion': '3.1.3'
+      'hybridAgentVersion': '3.1.4'
     };
     if (options?.rateLimits != null) {
       // convert enum to integer for cross language boundary value passing
@@ -274,6 +275,12 @@ class SetupOptions {
   /// When set to true, this option includes W3C-compliant headers in HTTP request headers,
   /// ensuring compatibility with W3C standards for tracing.
   bool? enableW3CHeaders;
+
+  /// When enabled, the device's timestamp is used as-is by the backend.
+  /// Otherwise, if the beacon reaches the backend more than 30 minutes late,
+  /// its timestamp is overridden with the arrival time.
+  /// This setting is optional; if not specified, the platform agent's configuration is used.
+  bool? trustDeviceTiming;
 }
 
 /// This class contains all the options you can provide for the Custom Events reported through [InstanaAgent.reportEvent()]

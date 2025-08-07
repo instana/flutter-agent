@@ -108,6 +108,7 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         let dropBeaconReporting = bool(for: .dropBeaconReporting, at: call)
         let rateLimits = int(for: .rateLimits, at: call)
         let enableW3CHeaders = bool(for: .enableW3CHeaders, at: call)
+        let trustDeviceTiming = bool(for: .trustDeviceTiming, at: call)
         let hybridAgentId = string(for: .hybridAgentId, at: call) ?? nil
         let hybridAgentVersion = string(for: .hybridAgentVersion, at: call) ?? nil
 
@@ -142,6 +143,9 @@ public class SwiftInstanaAgentPlugin: NSObject, FlutterPlugin {
         }
         if dropBeaconReporting != nil {
             options.dropBeaconReporting = dropBeaconReporting!
+        }
+        if trustDeviceTiming != nil {
+                    options.trustDeviceTiming = trustDeviceTiming!
         }
         if rateLimits != nil {
             options.rateLimits = RateLimits(rawValue: rateLimits ?? -1) ?? .DEFAULT_LIMITS
@@ -434,6 +438,7 @@ extension SwiftInstanaAgentPlugin {
         case responseSizeBody
         case responseSizeBodyDecoded
         case redactHTTPQueryRegEx
+        case trustDeviceTiming
         var string: String { rawValue }
     }
 }

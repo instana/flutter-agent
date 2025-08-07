@@ -49,7 +49,7 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                 val enableW3CHeaders: Boolean? = call.argument("enableW3CHeaders")
                 val hybridAgentId: String? = call.argument("hybridAgentId")
                 val hybridAgentVersion: String? = call.argument("hybridAgentVersion")
-
+                val trustDeviceTiming: Boolean? = call.argument("trustDeviceTiming")
                 // Convert to Immutable List of Pattern
                 val queryTrackedDomainList: List<Pattern>? = queryTrackedDomainListArr?.map { it.toRegex().toPattern() }
                 return nativeLink.setUpInstana(
@@ -66,7 +66,8 @@ class InstanaAgentPlugin : FlutterPlugin, MethodCallHandler {
                     rateLimits = rateLimits,
                     enableW3CHeaders = enableW3CHeaders,
                     hybridAgentId = hybridAgentId,
-                    hybridAgentVersion = hybridAgentVersion
+                    hybridAgentVersion = hybridAgentVersion,
+                    trustDeviceTiming = trustDeviceTiming ?: false
                 )
             }
 
