@@ -30,7 +30,7 @@ class InstanaAgent {
       'enableW3CHeaders': options?.enableW3CHeaders,
       'trustDeviceTiming': options?.trustDeviceTiming,
       'hybridAgentId': 'f',
-      'hybridAgentVersion': '3.1.4'
+      'hybridAgentVersion': '3.1.5'
     };
     if (options?.rateLimits != null) {
       // convert enum to integer for cross language boundary value passing

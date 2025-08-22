@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.5
+- Support a wide range of go_router versions
+
 ## 3.1.4
 - Added `trustDeviceTiming` configuration option for backend to trust the device timing
 

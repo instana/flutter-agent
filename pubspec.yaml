@@ -1,6 +1,6 @@
 name: instana_agent
 description: An Instana agent to collect statistics about sessions and HTTP requests for Flutter-based apps.
-version: 3.1.4
+version: 3.1.5
 homepage: https://www.instana.com
 repository: https://github.com/instana/flutter-agent
 
@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  go_router: ^6.2.0
+  go_router: '>=6.2.0 <17.0.0'
 
 dev_dependencies:
   mockito: ^5.0.0
